@@ -7,12 +7,15 @@
 <meta name="description" content="See a flag, find the country on the world map.">
 <meta name="theme-color" content="#f4f1ea">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='6' y='4' width='3' height='26' rx='1' fill='%23556'/%3E%3Cpath d='M9 5h17l-4 6 4 6H9z' fill='%2334a853'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 <header id="bar">
   <div id="flagCard">
-    <div id="flagFrame"><img id="flag" class="swap" alt="Flag to find" src="data:image/gif;base64,R0lGODlhAQABAAAAACw="></div>
+    <div id="flagCol">
+      <div id="flagFrame"><img id="flag" class="swap" alt="Flag to find" src="data:image/gif;base64,R0lGODlhAQABAAAAACw="></div>
+      <div id="attempt" aria-live="polite"></div>
+    </div>
     <div id="answer">
       <div id="prompt">Where is this flag?</div>
       <div id="name" aria-live="polite"></div>
@@ -30,7 +33,7 @@
 <main id="mapWrap">
   <svg id="map" role="img" aria-label="World map"></svg>
   <div id="labels"></div>
-  <div id="legend" aria-label="Map colours"><span><i class="sw done1"></i>First try</span><span><i class="sw done2"></i>Later try</span></div>
+  <div id="legend" aria-label="Map colours"><span><i class="sw done1"></i>First try</span><span><i class="sw done2"></i>Several tries</span></div>
   <div id="zoomCtl">
     <button id="zIn" aria-label="Zoom in">+</button>
     <button id="zOut" aria-label="Zoom out">−</button>
@@ -48,6 +51,6 @@
 
 <script src="lib/d3.min.js"></script>
 <script src="lib/topojson-client.min.js"></script>
-<script src="app.js?v=4"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>

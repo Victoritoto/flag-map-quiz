@@ -19,6 +19,7 @@ const TINY_PX = 12;          // show a ring when a small country is smaller than
 const SMALL_SR = 30000 / 40.6e6; // only countries under ~30,000 km² (in steradians) get rings
 const CORRECT_DELAY = 1150;  // ms the name stays up after a right answer
 const FIXED_DELAY = 1350;    // ms after finally clicking the right one
+const WRONG_FLASH = 1100;    // ms a wrongly clicked country stays red
 
 // ---------- DOM ----------
 const $ = id => document.getElementById(id);
@@ -28,6 +29,7 @@ const labelsEl = $('labels');
 const flagImg = $('flag');
 const nameEl = $('name');
 const promptEl = $('prompt');
+const attemptEl = $('attempt');
 const counterEl = $('counter');
 const modal = $('modal');
 const modalBody = $('modalBody');
@@ -56,9 +58,10 @@ const zoom = d3.zoom().scaleExtent([0.7, MAX_K]).on('zoom', ev => {
 // ---------- game state ----------
 const S = {
   regions: new Set(REGIONS), pool: [], queue: [], idx: 0,
-  phase: 'main', round: 0, current: null, attempts: 0, locked: true,
-  firstTry: new Set(), missed: new Set(), pending: new Set(), answered: new Set(),
-  started: 0, autoZoomFrom: null, timer: null,
+  current: null, attempts: 0, locked: true,
+  // firstTry: right on the first click; tries: code -> clicks needed when it took more than one
+  firstTry: new Set(), tries: new Map(), answered: new Set(), wrongClicks: 0,
+  started: 0, timer: null, flashTimer: null,
 };
 
 // ---------- utils ----------
@@ -191,10 +194,10 @@ function applyRegionClasses() {
   }
 }
 
-// Permanent colours for answered flags: done1 = right on the first try, done2 = right later in a replay round.
+// Permanent colours for answered flags: done1 = right on the first try, done2 = right after several tries.
 function doneState(code) {
   if (S.firstTry.has(code)) return 1;
-  if (S.missed.has(code) && !S.pending.has(code)) return 2;
+  if (S.tries.has(code)) return 2;
   return 0;
 }
 function applyDone() {
@@ -208,7 +211,7 @@ function applyDone() {
 }
 
 function ringRadius(g, k) {
-  const min = g.ring.el.classList.contains('target') ? 13 : isTouch ? 10 : 7;
+  const min = isTouch ? 10 : 7;
   return Math.max(min, Math.min(16, g.ring.half * k + 3));
 }
 
@@ -218,7 +221,7 @@ function updateRings() {
     const ring = g.ring;
     const cls = ring.el.classList;
     const vis = (ring.small && !cls.contains('out') && ring.size * k < TINY_PX) ||
-      (ring.size * k < 6 && (cls.contains('target') || cls.contains('bad') || cls.contains('good')));
+      (ring.size * k < 6 && (cls.contains('bad') || cls.contains('good')));
     if (vis !== ring.visible) { ring.visible = vis; ring.el.classList.toggle('hidden', !vis); }
     if (vis) {
       ring.r = ringRadius(g, k);
@@ -326,8 +329,8 @@ function mark(code, cls, on = true) {
   g.ring.el.classList.toggle(cls, on);
 }
 function clearMarks() {
-  landG.selectAll('path.good, path.bad, path.target').classed('good bad target', false);
-  ringsG.selectAll('circle').classed('good bad target', false);
+  landG.selectAll('path.good, path.bad').classed('good bad', false);
+  ringsG.selectAll('circle').classed('good bad', false);
   updateRings();
 }
 function flashBadTerritory(el) {
@@ -335,39 +338,18 @@ function flashBadTerritory(el) {
   setTimeout(() => el.classList.remove('bad'), 900);
 }
 
-// Bring the right answer into view if it is off-screen or too small to see.
-function focusOn(code) {
-  const b = geo.get(code).ring.bounds;
-  const [[x0, y0], [x1, y1]] = b;
-  const k = curT.k;
-  const [sx0, sy0] = curT.apply([x0, y0]), [sx1, sy1] = curT.apply([x1, y1]);
-  const onScreen = sx0 > 10 && sy0 > 10 && sx1 < W - 60 && sy1 < H - 10;
-  const size = Math.max(x1 - x0, y1 - y0) * k;
-  if (onScreen && size >= 24) return;
-  const dim = Math.max(1e-6, Math.max(x1 - x0, y1 - y0));
-  // Zoom in only enough to see it in context; tiny ones are marked by their pulsing ring.
-  // k = 1 shows the whole world, so k = 30 still shows ~12° of longitude around the target.
-  let k2 = Math.max(k, Math.min(30, 36 / dim));
-  k2 = Math.min(k2, 0.8 * Math.min(W / Math.max(1e-6, x1 - x0), H / Math.max(1e-6, y1 - y0)));
-  k2 = Math.max(k2, Math.min(k, homeT.k));
-  const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
-  const t = d3.zoomIdentity.translate(W / 2, H / 2).scale(k2).translate(-cx, -cy);
-  if (!S.autoZoomFrom) S.autoZoomFrom = curT;
-  svg.transition().duration(750).ease(d3.easeCubicInOut).call(zoom.transform, t);
-}
-
 // ---------- game flow ----------
 function startSession(regions) {
-  clearTimeout(S.timer);
+  clearTimeout(S.timer); clearTimeout(S.flashTimer);
   const rot = rotationFor(regions);
   S.regions = new Set(regions);
   if (rot !== rotation || !projection) { rotation = rot; render(); }
   else { applyRegionClasses(); homeT = fitTransform(homeBounds(), 0.92, MAX_K, homeCrop()); svg.transition().duration(600).call(zoom.transform, homeT); }
   Object.assign(S, {
     pool: countries.filter(c => S.regions.has(c.region)).map(c => c.code),
-    idx: 0, phase: 'main', round: 0, current: null, attempts: 0, locked: false,
-    firstTry: new Set(), missed: new Set(), pending: new Set(), answered: new Set(),
-    started: Date.now(), autoZoomFrom: null,
+    idx: 0, current: null, attempts: 0, locked: false,
+    firstTry: new Set(), tries: new Map(), answered: new Set(), wrongClicks: 0,
+    started: Date.now(),
   });
   S.queue = shuffle(S.pool);
   applyDone();
@@ -377,13 +359,10 @@ function startSession(regions) {
 }
 
 function nextFlag() {
+  clearTimeout(S.flashTimer);
   clearMarks(); clearLabels();
-  if (S.autoZoomFrom) { svg.transition().duration(600).ease(d3.easeCubicInOut).call(zoom.transform, S.autoZoomFrom); S.autoZoomFrom = null; }
-  if (S.idx >= S.queue.length) {
-    if (S.pending.size === 0) return finish();
-    S.phase = 'review'; S.round++;
-    S.queue = shuffle([...S.pending]); S.idx = 0;
-  }
+  // Every flag is asked exactly once per session.
+  if (S.idx >= S.queue.length) return finish();
   S.current = S.queue[S.idx++];
   S.attempts = 0; S.locked = false;
   flagImg.classList.add('swap');
@@ -395,8 +374,9 @@ function nextFlag() {
   };
   img.src = src;
   const nxt = S.queue[S.idx]; if (nxt) new Image().src = flagSrc(nxt);
-  promptEl.textContent = S.phase === 'review' ? `Review round ${S.round} · where is this flag?` : 'Where is this flag?';
+  promptEl.textContent = 'Where is this flag?';
   nameEl.className = ''; nameEl.textContent = ' ';
+  showAttempt();
   updateCounter();
 }
 
@@ -405,35 +385,35 @@ function pick(f, clientX, clientY) {
   const target = S.current;
   if (f.code === target) {
     S.locked = true;
-    if (S.attempts === 0) {
-      if (S.phase === 'main') S.firstTry.add(target);
-      else S.pending.delete(target);
-      applyDone();
-    }
-    if (S.phase === 'main') S.answered.add(target);
-    mark(target, 'target', false);
+    clearTimeout(S.flashTimer); clearMarks(); clearLabels();
+    const tries = S.attempts + 1;
+    if (tries === 1) S.firstTry.add(target); else S.tries.set(target, tries);
+    S.answered.add(target);
+    applyDone();
     mark(target, 'good');
-    showName(byCode.get(target).name, 'good', S.attempts === 0 ? 'Correct!' : 'Got it.');
+    showName(byCode.get(target).name, 'good', tries === 1 ? 'Correct!' : `Got it in ${tries} tries`);
+    attemptEl.classList.remove('show');
     updateCounter();
-    S.timer = setTimeout(nextFlag, S.attempts === 0 ? CORRECT_DELAY : FIXED_DELAY);
+    S.timer = setTimeout(nextFlag, tries === 1 ? CORRECT_DELAY : FIXED_DELAY);
     return;
   }
-  // wrong
-  if (S.attempts === 0) {
-    if (S.phase === 'main') { S.missed.add(target); S.pending.add(target); S.answered.add(target); }
-  }
-  S.attempts++;
-  clearLabels();
-  landG.selectAll('path.bad').classed('bad', false);
-  ringsG.selectAll('circle.bad').classed('bad', false);
+  // Wrong: flash what was clicked and name it, but never reveal the answer. The same flag stays up.
+  S.attempts++; S.wrongClicks++;
+  clearTimeout(S.flashTimer); clearMarks(); clearLabels();
+  landG.selectAll('path.terr.bad').classed('bad', false);
+  let terr = null;
   if (f.code) mark(f.code, 'bad');
-  else { const el = document.elementFromPoint(clientX, clientY); if (el && el.__f) flashBadTerritory(el); }
-  addLabel(f.name, f.code ? '' : '(not in quiz)', clientX, clientY);
-  mark(target, 'target');
+  else { terr = document.elementFromPoint(clientX, clientY); if (terr && terr.__f) terr.classList.add('bad'); else terr = null; }
   updateRings();
-  showName(byCode.get(target).name, 'bad', `You clicked ${f.name} — this flag is`);
-  updateCounter();
-  focusOn(target);
+  addLabel(`That's ${f.name}`, f.code ? '' : '(not in quiz)', clientX, clientY);
+  S.flashTimer = setTimeout(() => { if (terr) terr.classList.remove('bad'); clearMarks(); clearLabels(); }, WRONG_FLASH);
+  promptEl.textContent = `That's ${f.name} — keep looking`;
+  showAttempt();
+}
+
+function showAttempt() {
+  attemptEl.textContent = `Attempt ${S.attempts + 1}`;
+  attemptEl.classList.toggle('show', S.attempts > 0);
 }
 
 function showName(name, cls, prompt) {
@@ -445,11 +425,8 @@ function showName(name, cls, prompt) {
 
 function updateCounter() {
   const N = S.pool.length;
-  const toGo = N - S.answered.size;
-  const later = S.missed.size - S.pending.size;
-  let html = `<b>${S.firstTry.size}</b> / ${N} first try · <b>${later}</b> later try · <b>${S.pending.size}</b> missed · <b>${toGo}</b> to go`;
-  if (S.phase === 'review') html += ` · review round ${S.round}`;
-  counterEl.innerHTML = html;
+  counterEl.innerHTML = `<i class="sw done1"></i><b>${S.firstTry.size}</b> first try · ` +
+    `<i class="sw done2"></i><b>${S.tries.size}</b> after several tries · <b>${N - S.answered.size}</b> / ${N} to go`;
 }
 
 // ---------- modals ----------
@@ -469,7 +446,7 @@ function regionPicker(first) {
   const world = S.regions.size === REGIONS.length;
   openModal(`
     <h2>${first ? 'Flag Map Quiz' : 'Choose regions'}</h2>
-    <p>${first ? 'You see a flag — click that country on the map. Miss one and it comes back at the end until you get it right first time.' : 'Starting with a new selection restarts the session.'}</p>
+    <p>${first ? 'You see a flag — click that country on the map. A wrong click shows you what you clicked; keep looking until you find the right one.' : 'Starting with a new selection restarts the session.'}</p>
     <div class="regions">
       <label class="world"><input type="checkbox" id="rgWorld" ${world ? 'checked' : ''}> Whole world <span class="cnt">${countries.length}</span></label>
       ${REGIONS.map(r => `<label><input type="checkbox" class="rg" value="${r}" ${S.regions.has(r) ? 'checked' : ''}> ${r} <span class="cnt">${counts[r]}</span></label>`).join('')}
@@ -498,20 +475,22 @@ function section(title, codes, render = c => cell(c), empty = 'None yet') {
     (codes.length ? `<div class="grid">${codes.sort(byName).map(render).join('')}</div>` : `<div class="empty">${empty}</div>`);
 }
 
+const triesCell = c => cell(c, `<div class="tries">${S.tries.get(c)} tries</div>`);
+
 function progressView() {
-  const notSeen = S.pool.filter(c => !S.answered.has(c) && c !== S.current);
+  const toGo = S.pool.filter(c => !S.answered.has(c) && c !== S.current);
   openModal(`
     <h2>This session</h2>
-    <p>${[...S.regions].length === REGIONS.length ? 'Whole world' : [...S.regions].join(', ')} · ${S.pool.length} flags${S.phase === 'review' ? ` · review round ${S.round}` : ''}</p>
-    ${section('<i class="sw done1"></i>First try', [...S.firstTry])}
-    ${section('<i class="sw done2"></i>Later try', [...S.missed].filter(c => !S.pending.has(c)))}
-    ${section('Missed, not yet right', [...S.pending], c => cell(c), 'Nothing waiting for a replay')}
-    ${section('Not yet seen', notSeen, c => cell(c), 'You have seen every flag')}
+    <p>${[...S.regions].length === REGIONS.length ? 'Whole world' : [...S.regions].join(', ')} · ${S.pool.length} flags · ${S.wrongClicks} wrong click${S.wrongClicks === 1 ? '' : 's'} so far</p>
+    ${section('<i class="sw done1"></i>Correct first try', [...S.firstTry])}
+    ${section('<i class="sw done2"></i>Correct after several tries', [...S.tries.keys()], triesCell)}
+    ${section('Still to go', toGo, c => cell(c), 'Only the current flag is left')}
     <p class="hint" style="margin-top:18px">The flag you're on right now isn't listed.</p>`);
 }
 
 function finish() {
-  S.locked = true; S.current = null; S.phase = 'done';
+  S.locked = true; S.current = null;
+  attemptEl.classList.remove('show');
   const N = S.pool.length, ok = S.firstTry.size;
   const mins = Math.max(1, Math.round((Date.now() - S.started) / 60000));
   flagImg.classList.add('swap');
@@ -520,9 +499,9 @@ function finish() {
   updateCounter();
   openModal(`
     <h2>Session complete 🎉</h2>
-    <div class="score">${ok} <small>/ ${N} right first try (${Math.round(100 * ok / N)}%)</small></div>
-    <div class="stats"><span><b>${S.missed.size}</b> later try</span><span><b>${S.round}</b> review round${S.round === 1 ? '' : 's'}</span><span>about <b>${mins}</b> min</span></div>
-    ${S.missed.size ? section('<i class="sw done2"></i>Later try', [...S.missed]) : '<p>A perfect run — every flag right first time.</p>'}
+    <div class="score">${ok} <small>/ ${N} correct first try (${Math.round(100 * ok / N)}%)</small></div>
+    <div class="stats"><span><i class="sw done2"></i><b>${S.tries.size}</b> after several tries</span><span><b>${S.wrongClicks}</b> wrong click${S.wrongClicks === 1 ? '' : 's'} in total</span><span>about <b>${mins}</b> min</span></div>
+    ${S.tries.size ? section('<i class="sw done2"></i>Correct after several tries', [...S.tries.keys()], triesCell) : '<p>A perfect run — every flag right first time.</p>'}
     <div class="actions" style="margin-top:22px">
       <button id="endRegions">Change regions</button>
       <button class="primary" id="endAgain">Play again</button>
@@ -536,7 +515,7 @@ $('btnSettings').onclick = () => regionPicker(false);
 $('btnProgress').onclick = progressView;
 $('zIn').onclick = () => svg.transition().duration(250).call(zoom.scaleBy, 1.8);
 $('zOut').onclick = () => svg.transition().duration(250).call(zoom.scaleBy, 1 / 1.8);
-$('zReset').onclick = () => { S.autoZoomFrom = null; svg.transition().duration(500).call(zoom.transform, homeT); };
+$('zReset').onclick = () => svg.transition().duration(500).call(zoom.transform, homeT);
 
 let resizeTimer;
 new ResizeObserver(() => {
@@ -545,10 +524,7 @@ new ResizeObserver(() => {
   resizeTimer = setTimeout(() => {
     if (Math.abs(wrap.clientWidth - W) < 2 && Math.abs(wrap.clientHeight - H) < 2) return;
     render();
-    S.autoZoomFrom = null;
     clearLabels();
-    // Paths were redrawn, so re-apply the pulsing hint if a wrong answer is pending.
-    if (S.current && S.attempts > 0 && !S.locked) { mark(S.current, 'target'); updateRings(); }
   }, 150);
 }).observe(wrap);
 

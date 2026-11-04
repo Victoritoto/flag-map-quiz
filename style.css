@@ -12,7 +12,6 @@
   --hover: #b3c3a3;
   --good: #2f9e5b;
   --bad: #e0524a;
-  --target: #3b6fe0;
   /* permanent "answered" fills: soft and see-through, unlike the solid answer flashes */
   --done1: rgba(64, 168, 104, .42);
   --done2: rgba(240, 160, 60, .5);
@@ -64,6 +63,12 @@ button.ghost { background: transparent; }
   transition: opacity .18s, transform .18s;
 }
 #flag.swap { opacity: 0; transform: translateY(6px) scale(.97); }
+#flagCol { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: none; }
+#attempt {
+  font-size: 12px; font-weight: 600; color: var(--bad); line-height: 16px; height: 16px;
+  opacity: 0; transition: opacity .15s;
+}
+#attempt.show { opacity: 1; }
 #answer { min-width: 0; }
 #prompt { color: var(--muted); font-size: 14px; }
 #name {
@@ -77,6 +82,7 @@ button.ghost { background: transparent; }
 #side { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; text-align: right; }
 #counter { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
 #counter b { color: var(--ink); font-weight: 600; }
+#counter .sw { margin-right: 4px; width: 10px; height: 10px; }
 #buttons { display: flex; gap: 8px; }
 
 /* ---------- map ---------- */
@@ -93,12 +99,10 @@ button.ghost { background: transparent; }
 .land path.done1 { fill: var(--done1); }
 .land path.done2 { fill: var(--done2); }
 .land path.hover { fill: var(--hover); cursor: pointer; }
-.land path.done1.hover:not(.good):not(.bad):not(.target) { fill: var(--done1-hover); }
-.land path.done2.hover:not(.good):not(.bad):not(.target) { fill: var(--done2-hover); }
+.land path.done1.hover:not(.good):not(.bad) { fill: var(--done1-hover); }
+.land path.done2.hover:not(.good):not(.bad) { fill: var(--done2-hover); }
 .land path.good { fill: var(--good); }
 .land path.bad { fill: var(--bad); }
-.land path.target { animation: pulse 1s ease-in-out infinite; }
-@keyframes pulse { 0%,100% { fill: var(--target); } 50% { fill: #a9c1f5; } }
 
 .rings circle {
   fill: rgba(47,111,159,.07); stroke: rgba(47,90,130,.55);
@@ -112,8 +116,6 @@ button.ghost { background: transparent; }
 .rings circle.hover { fill: rgba(47,111,159,.22); stroke: rgba(30,70,110,.9); stroke-width: 2px; }
 .rings circle.good { fill: rgba(47,158,91,.35); stroke: var(--good); stroke-width: 2.5px; }
 .rings circle.bad { fill: rgba(224,82,74,.3); stroke: var(--bad); stroke-width: 2.5px; }
-.rings circle.target { animation: ring 1s ease-in-out infinite; stroke-width: 2.5px; }
-@keyframes ring { 0%,100% { stroke: var(--target); fill: rgba(59,111,224,.35); } 50% { stroke: #a9c1f5; fill: rgba(59,111,224,.1); } }
 
 #labels { position: absolute; inset: 0; pointer-events: none; }
 .tag {
@@ -190,7 +192,7 @@ button.ghost { background: transparent; }
 .cell { text-align: center; font-size: 12.5px; line-height: 1.25; }
 .cell .fl { height: 48px; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; }
 .cell img { max-width: 66px; max-height: 46px; display: block; border-radius: 3px; box-shadow: 0 0 0 1px rgba(0,0,0,.08); }
-.cell .fixed { color: var(--good); font-size: 11px; }
+.cell .tries { color: #b8741a; font-size: 11px; font-weight: 600; }
 .empty { color: var(--muted); font-size: 14px; }
 .score { font-size: 46px; font-weight: 700; letter-spacing: -1px; margin: 8px 0 0; }
 .score small { font-size: 18px; color: var(--muted); font-weight: 500; letter-spacing: 0; }
