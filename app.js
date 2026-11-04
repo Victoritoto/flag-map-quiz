@@ -8,19 +8,24 @@ const REGION_BOX = {
   Americas: [[-168, -56], [-30, 72]],
   Asia:     [[25, -11], [150, 56]],
   Europe:   [[-25, 34], [45, 71]],
-  Oceania:  [[110, -48], [190, 20]],
+  Oceania:  [[110, -48], [205, 20]],  // past 180° so it reaches Kiritimati (drawn right of the edge)
 };
 // Natural Earth shapes without an ISO id that belong to a quiz country.
 const NAME_TO_CODE = { 'Kosovo': 'xk', 'N. Cyprus': 'cy', 'Somaliland': 'so' };
 const TERRITORY_NAMES = { 'W. Sahara': 'Western Sahara', 'Siachen Glacier': 'Siachen Glacier (disputed)' };
 const ANTARCTICA = '010';
-// The map is centred on 11°E, so its wrap-around edge runs down 169°W, through the Bering Strait and
-// east of Samoa, Tonga and Kiribati's Gilbert and Phoenix Islands. Shapes are always drawn at their real positions.
+// The map is centred on 11°E, so its wrap-around edge runs down 169°W, through the Bering Strait.
+// That keeps Alaska and Russia whole, but would leave the Pacific islands east of 169°W on the far left.
+// So the split line bends: island polygons lying wholly in this box are drawn past the RIGHT edge instead,
+// continuing the same projection smoothly beyond 180° (Kiribati's Line Islands incl. Kiritimati, Cook Islands,
+// Niue, French Polynesia, Pitcairn, Hawaii). They still belong to their own country's shape.
 const ROTATION = -11;
+const PAST_EDGE = { west: -169, east: -125, maxLat: 30 };
 // Manual ring positions, [longitude, latitude]. A country listed here gets its single ring centred
 // exactly on this point instead of a computed one; the ring is sized to the island under the point.
+// Longitudes above 180 are past the right edge.
 const RING_POSITION = {
-  ki: [-157.5, 1.9],  // Kiribati: Kiritimati (Christmas Island), 1.9°N 157.5°W
+  ki: [202.5, 1.9],  // Kiribati: Kiritimati (Christmas Island), 1.9°N 157.5°W, i.e. -157.5 + 360
 };
 const MAX_K = 400;           // max zoom factor
 const TINY_PX = 12;          // show a ring when a small country is smaller than this on screen
@@ -83,6 +88,34 @@ function polygonsOf(f) {
   return g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
 }
 
+// ---------- map space: the normal projection, plus the islands drawn past the right edge ----------
+const inPastBox = ([lon, lat]) => lon >= PAST_EDGE.west && lon <= PAST_EDGE.east && lat < PAST_EDGE.maxLat;
+const isPastEdge = poly => poly[0].every(inPastBox);
+// Same Natural Earth formula and scale as `projection`, but with the longitude unwrapped past 180°
+// and no antimeridian clipping, so these islands sit to the right of the 180° line.
+function projectPast([lon, lat]) {
+  const rad = Math.PI / 180;
+  const [x, y] = d3.geoNaturalEarth1Raw(((lon < 0 ? lon + 360 : lon) + ROTATION) * rad, lat * rad);
+  const k = projection.scale(), [tx, ty] = projection.translate();
+  return [tx + k * x, ty - k * y];
+}
+const pastPath = d3.geoPath(d3.geoTransform({ point(lon, lat) { this.stream.point(...projectPast([lon, lat])); } }));
+// Splits a feature's polygons into the part drawn normally and the part drawn past the right edge.
+function splitPast(feature) {
+  const main = [], past = [];
+  for (const poly of polygonsOf(feature)) (isPastEdge(poly) ? past : main).push(poly);
+  const mp = c => c.length ? { type: 'MultiPolygon', coordinates: c } : null;
+  return { main: mp(main), past: mp(past) };
+}
+const pathOf = parts => (parts.main ? path(parts.main) : '') + (parts.past ? pastPath(parts.past) : '');
+const areaOf = parts => (parts.main ? path.area(parts.main) : 0) + (parts.past ? pastPath.area(parts.past) : 0);
+function boundsOf(parts) {
+  const bs = [parts.main && path.bounds(parts.main), parts.past && pastPath.bounds(parts.past)].filter(Boolean);
+  return [[d3.min(bs, b => b[0][0]), d3.min(bs, b => b[0][1])], [d3.max(bs, b => b[1][0]), d3.max(bs, b => b[1][1])]];
+}
+// Any [lon, lat] to map pixels: past the right edge for points in PAST_EDGE's box or with lon > 180.
+const projectPoint = ll => (ll[0] > 180 || inPastBox(ll)) ? projectPast(ll) : projection(ll);
+
 // Where a country's ring goes: its largest polygon plus everything within ~650 km, so far-flung
 // islands (e.g. US Aleutians) don't pull the ring away. With an anchor (RING_POSITION), it is just the
 // one island nearest that point, e.g. Kiribati's Kiritimati.
@@ -113,21 +146,21 @@ async function load() {
     if (f.id === ANTARCTICA) continue;
     const nm = f.properties.name;
     const code = numToCode.get(f.id) || NAME_TO_CODE[nm] || null;
-    features.push({ feature: f, code, name: code ? byCode.get(code).name : (TERRITORY_NAMES[nm] || nm) });
+    features.push({ feature: f, parts: splitPast(f), code, name: code ? byCode.get(code).name : (TERRITORY_NAMES[nm] || nm) });
   }
   for (const c of list) geo.set(c.code, { paths: [], fs: [] });
   for (const f of features) if (f.code) geo.get(f.code).fs.push(f.feature);
   const missing = list.filter(c => !geo.get(c.code).fs.length);
   if (missing.length) console.error('No shape for', missing.map(c => c.name));
   for (const [code, g] of geo) {
-    g.cores = [coreOf(g.fs, RING_POSITION[code])];  // one ring per country
+    g.cores = [coreOf(g.fs, RING_POSITION[code])].map(core => Object.assign(core, { parts: splitPast(core) }));  // one ring per country
     g.area = d3.sum(g.fs, f => d3.geoArea(f));
   }
   // handy for checking in the console
   window.__quiz = {
     countries, geo, features, S,
     pick: code => pick({ code, name: byCode.get(code).name }, 0, 0),
-    view: (lon, lat, k) => { const [x, y] = projection([lon, lat]); svg.call(zoom.transform, d3.zoomIdentity.translate(W / 2, H / 2).scale(k).translate(-x, -y)); },
+    view: (lon, lat, k) => { const [x, y] = projectPoint([lon, lat]); svg.call(zoom.transform, d3.zoomIdentity.translate(W / 2, H / 2).scale(k).translate(-x, -y)); },
   };
 }
 
@@ -135,14 +168,18 @@ async function load() {
 function render() {
   W = wrap.clientWidth; H = wrap.clientHeight;
   svg.attr('viewBox', null);
-  const world = { type: 'FeatureCollection', features: features.map(f => f.feature) };
-  projection = d3.geoNaturalEarth1().rotate([ROTATION, 0]).fitExtent([[6, 6], [W - 6, H - 6]], world);
+  // Fit the whole map, including the islands past the right edge, into the drawing area.
+  projection = d3.geoNaturalEarth1().rotate([ROTATION, 0]).scale(1).translate([0, 0]);
   path = d3.geoPath(projection);
+  const all = features.map(f => boundsOf(f.parts));
+  const [x0, y0, x1, y1] = [d3.min(all, b => b[0][0]), d3.min(all, b => b[0][1]), d3.max(all, b => b[1][0]), d3.max(all, b => b[1][1])];
+  const k = Math.min((W - 12) / (x1 - x0), (H - 12) / (y1 - y0));
+  projection.scale(k).translate([W / 2 - k * (x0 + x1) / 2, H / 2 - k * (y0 + y1) / 2]);
 
   for (const g of geo.values()) g.paths = [];
   landG.selectAll('path').remove();
   for (const f of features) {
-    const el = landG.append('path').attr('d', path(f.feature)).node();
+    const el = landG.append('path').attr('d', pathOf(f.parts)).node();
     el.__f = f;
     if (f.code) geo.get(f.code).paths.push(el);
     else el.classList.add('terr');
@@ -152,12 +189,12 @@ function render() {
   allRings = [];
   for (const [code, g] of geo) {
     g.rings = g.cores.map(core => {
-      const b = path.bounds(core);
+      const b = boundsOf(core.parts);
       // A manual position wins; otherwise the land-weighted centre, which sits on the main islands
       // rather than the middle of an archipelago's box.
-      const [x, y] = projection(RING_POSITION[code] || d3.geoCentroid(core));
+      const [x, y] = projectPoint(RING_POSITION[code] || d3.geoCentroid(core));
       const half = Math.hypot(b[1][0] - b[0][0], b[1][1] - b[0][1]) / 2;
-      const size = Math.sqrt(path.area(core));
+      const size = Math.sqrt(areaOf(core.parts));
       const el = ringsG.append('circle').attr('cx', x).attr('cy', y).node();
       const ring = { code, el, x, y, half, size, bounds: b, small: g.area < SMALL_SR, visible: false, r: 0 };
       allRings.push(ring);
@@ -180,7 +217,7 @@ function homeBounds() {
     for (let i = 0; i <= 20; i++) for (const [lo, la] of [
       [lo0 + (lo1 - lo0) * i / 20, la0], [lo0 + (lo1 - lo0) * i / 20, la1],
       [lo0, la0 + (la1 - la0) * i / 20], [lo1, la0 + (la1 - la0) * i / 20]]) {
-      const p = projection([lo > 180 ? lo - 360 : lo, la]);
+      const p = projectPoint([lo, la]);
       if (!p) continue;
       x0 = Math.min(x0, p[0]); y0 = Math.min(y0, p[1]); x1 = Math.max(x1, p[0]); y1 = Math.max(y1, p[1]);
     }
