@@ -17,9 +17,10 @@ const ANTARCTICA = '010';
 // The map is centred on 11°E, so its wrap-around edge runs down 169°W, through the Bering Strait and
 // east of Samoa, Tonga and Kiribati's Gilbert and Phoenix Islands. Shapes are always drawn at their real positions.
 const ROTATION = -11;
-// Countries whose single ring goes around one particular island (the one nearest this point).
-const RING_ANCHOR = {
-  ki: [-157.4, 1.9],  // Kiribati: Kiritimati only
+// Manual ring positions, [longitude, latitude]. A country listed here gets its single ring centred
+// exactly on this point instead of a computed one; the ring is sized to the island under the point.
+const RING_POSITION = {
+  ki: [-157.5, 1.9],  // Kiribati: Kiritimati (Christmas Island), 1.9°N 157.5°W
 };
 const MAX_K = 400;           // max zoom factor
 const TINY_PX = 12;          // show a ring when a small country is smaller than this on screen
@@ -83,7 +84,7 @@ function polygonsOf(f) {
 }
 
 // Where a country's ring goes: its largest polygon plus everything within ~650 km, so far-flung
-// islands (e.g. US Aleutians) don't pull the ring away. With an anchor (RING_ANCHOR), it is just the
+// islands (e.g. US Aleutians) don't pull the ring away. With an anchor (RING_POSITION), it is just the
 // one island nearest that point, e.g. Kiribati's Kiritimati.
 function coreOf(fs, anchor) {
   const polys = fs.flatMap(polygonsOf).map(c => {
@@ -119,7 +120,7 @@ async function load() {
   const missing = list.filter(c => !geo.get(c.code).fs.length);
   if (missing.length) console.error('No shape for', missing.map(c => c.name));
   for (const [code, g] of geo) {
-    g.cores = [coreOf(g.fs, RING_ANCHOR[code])];  // one ring per country
+    g.cores = [coreOf(g.fs, RING_POSITION[code])];  // one ring per country
     g.area = d3.sum(g.fs, f => d3.geoArea(f));
   }
   // handy for checking in the console
@@ -152,8 +153,9 @@ function render() {
   for (const [code, g] of geo) {
     g.rings = g.cores.map(core => {
       const b = path.bounds(core);
-      // Centre on the land-weighted centre, which sits on the main islands, not the middle of an archipelago's box.
-      const [x, y] = projection(d3.geoCentroid(core));
+      // A manual position wins; otherwise the land-weighted centre, which sits on the main islands
+      // rather than the middle of an archipelago's box.
+      const [x, y] = projection(RING_POSITION[code] || d3.geoCentroid(core));
       const half = Math.hypot(b[1][0] - b[0][0], b[1][1] - b[0][1]) / 2;
       const size = Math.sqrt(path.area(core));
       const el = ringsG.append('circle').attr('cx', x).attr('cy', y).node();
