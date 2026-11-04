@@ -17,9 +17,9 @@ const ANTARCTICA = '010';
 // The map is centred on 11°E, so its wrap-around edge runs down 169°W, through the Bering Strait and
 // east of Samoa, Tonga and Kiribati's Gilbert and Phoenix Islands. Shapes are always drawn at their real positions.
 const ROTATION = -11;
-// Countries spread over far-apart island groups get one ring per group, each at the group's real position.
-const RING_GROUPS = {
-  ki: [[173.0, 1.4], [-171.7, -2.8], [-157.4, 1.9]],  // Kiribati: Gilbert (Tarawa, with Banaba), Phoenix (Kanton), Line (Kiritimati)
+// Where to put a country's single ring when its largest island isn't its heartland.
+const RING_ANCHOR = {
+  ki: [173.0, 1.4],  // Kiribati: the Gilbert Islands around Tarawa (with Banaba), not Kiritimati far to the east
 };
 const MAX_K = 400;           // max zoom factor
 const TINY_PX = 12;          // show a ring when a small country is smaller than this on screen
@@ -82,21 +82,18 @@ function polygonsOf(f) {
   return g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
 }
 
-// Where a country's ring(s) go. By default: its largest polygon plus everything within ~650 km, so
-// far-flung islands (e.g. US Aleutians) don't pull the ring away. Countries in RING_GROUPS instead get
-// one core per island group, each made of the polygons nearest to that group's anchor point.
-function coresOf(fs, anchors) {
+// Where a country's ring goes: its largest polygon plus everything within ~650 km, so far-flung
+// islands (e.g. US Aleutians) don't pull the ring away. With an anchor (RING_ANCHOR), it is the
+// polygons within ~1000 km of that point instead, e.g. Kiribati's Gilbert Islands and Banaba.
+function coreOf(fs, anchor) {
   const polys = fs.flatMap(polygonsOf).map(c => {
     const p = { type: 'Polygon', coordinates: c };
     return { p, area: d3.geoArea(p), c: d3.geoCentroid(p) };
   });
-  const asCore = list => ({ type: 'Feature', geometry: { type: 'MultiPolygon', coordinates: list.map(q => q.p.coordinates) } });
-  if (anchors) {
-    const nearest = q => d3.minIndex(anchors, a => d3.geoDistance(q.c, a));
-    return anchors.map((a, i) => asCore(polys.filter(q => nearest(q) === i))).filter(c => c.geometry.coordinates.length);
-  }
-  const main = polys.reduce((m, q) => q.area > m.area ? q : m);
-  return [asCore(polys.filter(q => d3.geoDistance(q.c, main.c) < 0.1))];
+  const near = anchor
+    ? polys.filter(q => d3.geoDistance(q.c, anchor) < 0.16)
+    : (main => polys.filter(q => d3.geoDistance(q.c, main.c) < 0.1))(polys.reduce((m, q) => q.area > m.area ? q : m));
+  return { type: 'Feature', geometry: { type: 'MultiPolygon', coordinates: near.map(q => q.p.coordinates) } };
 }
 
 // ---------- loading ----------
@@ -122,7 +119,7 @@ async function load() {
   const missing = list.filter(c => !geo.get(c.code).fs.length);
   if (missing.length) console.error('No shape for', missing.map(c => c.name));
   for (const [code, g] of geo) {
-    g.cores = coresOf(g.fs, RING_GROUPS[code]);
+    g.cores = [coreOf(g.fs, RING_ANCHOR[code])];  // one ring per country
     g.area = d3.sum(g.fs, f => d3.geoArea(f));
   }
   // handy for checking in the console
