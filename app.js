@@ -147,6 +147,7 @@ function render() {
     g.ring = { el, x, y, half, size, bounds: b, small: g.core.area < SMALL_SR, visible: false, r: 0 };
   }
   applyRegionClasses();
+  applyDone();
   homeT = fitTransform(homeBounds(), 0.92, MAX_K, homeCrop());
   zoom.translateExtent([[-W * 0.5, -H * 0.5], [W * 1.5, H * 1.5]]);
   svg.call(zoom).on('dblclick.zoom', null);
@@ -186,6 +187,22 @@ function applyRegionClasses() {
     const out = !S.regions.has(byCode.get(code).region);
     g.paths.forEach(p => p.classList.toggle('out', out));
     g.ring.el.classList.toggle('out', out);
+  }
+}
+
+// Permanent colours for answered flags: done1 = right on the first try, done2 = right later in a replay round.
+function doneState(code) {
+  if (S.firstTry.has(code)) return 1;
+  if (S.missed.has(code) && !S.pending.has(code)) return 2;
+  return 0;
+}
+function applyDone() {
+  for (const [code, g] of geo) {
+    const d = doneState(code);
+    for (const el of [...g.paths, g.ring.el]) {
+      el.classList.toggle('done1', d === 1);
+      el.classList.toggle('done2', d === 2);
+    }
   }
 }
 
@@ -352,6 +369,7 @@ function startSession(regions) {
     started: Date.now(), autoZoomFrom: null,
   });
   S.queue = shuffle(S.pool);
+  applyDone();
   clearMarks(); clearLabels();
   closeModal();
   nextFlag();
@@ -389,6 +407,7 @@ function pick(f, clientX, clientY) {
     if (S.attempts === 0) {
       if (S.phase === 'main') S.firstTry.add(target);
       else S.pending.delete(target);
+      applyDone();
     }
     if (S.phase === 'main') S.answered.add(target);
     mark(target, 'target', false);
@@ -426,8 +445,9 @@ function showName(name, cls, prompt) {
 function updateCounter() {
   const N = S.pool.length;
   const toGo = N - S.answered.size;
-  let html = `<b>${S.firstTry.size}</b> / ${N} correct first try · <b>${S.missed.size}</b> missed · <b>${toGo}</b> to go`;
-  if (S.phase === 'review') html += ` · review: <b>${S.pending.size}</b> left`;
+  const later = S.missed.size - S.pending.size;
+  let html = `<b>${S.firstTry.size}</b> / ${N} first try · <b>${later}</b> later try · <b>${S.pending.size}</b> missed · <b>${toGo}</b> to go`;
+  if (S.phase === 'review') html += ` · review round ${S.round}`;
   counterEl.innerHTML = html;
 }
 
@@ -482,8 +502,9 @@ function progressView() {
   openModal(`
     <h2>This session</h2>
     <p>${[...S.regions].length === REGIONS.length ? 'Whole world' : [...S.regions].join(', ')} · ${S.pool.length} flags${S.phase === 'review' ? ` · review round ${S.round}` : ''}</p>
-    ${section('Right first time', [...S.firstTry])}
-    ${section('Missed', [...S.missed], c => cell(c, S.pending.has(c) ? '' : '<div class="fixed">✓ fixed</div>'))}
+    ${section('<i class="sw done1"></i>First try', [...S.firstTry])}
+    ${section('<i class="sw done2"></i>Later try', [...S.missed].filter(c => !S.pending.has(c)))}
+    ${section('Missed, not yet right', [...S.pending], c => cell(c), 'Nothing waiting for a replay')}
     ${section('Not yet seen', notSeen, c => cell(c), 'You have seen every flag')}
     <p class="hint" style="margin-top:18px">The flag you're on right now isn't listed.</p>`);
 }
@@ -499,8 +520,8 @@ function finish() {
   openModal(`
     <h2>Session complete 🎉</h2>
     <div class="score">${ok} <small>/ ${N} right first try (${Math.round(100 * ok / N)}%)</small></div>
-    <div class="stats"><span><b>${S.missed.size}</b> needed review</span><span><b>${S.round}</b> review round${S.round === 1 ? '' : 's'}</span><span>about <b>${mins}</b> min</span></div>
-    ${S.missed.size ? section('Flags you missed', [...S.missed]) : '<p>A perfect run — every flag right first time.</p>'}
+    <div class="stats"><span><b>${S.missed.size}</b> later try</span><span><b>${S.round}</b> review round${S.round === 1 ? '' : 's'}</span><span>about <b>${mins}</b> min</span></div>
+    ${S.missed.size ? section('<i class="sw done2"></i>Later try', [...S.missed]) : '<p>A perfect run — every flag right first time.</p>'}
     <div class="actions" style="margin-top:22px">
       <button id="endRegions">Change regions</button>
       <button class="primary" id="endAgain">Play again</button>
