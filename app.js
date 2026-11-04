@@ -17,9 +17,9 @@ const ANTARCTICA = '010';
 // The map is centred on 11°E, so its wrap-around edge runs down 169°W, through the Bering Strait and
 // east of Samoa, Tonga and Kiribati's Gilbert and Phoenix Islands. Shapes are always drawn at their real positions.
 const ROTATION = -11;
-// Where to put a country's single ring when its largest island isn't its heartland.
+// Countries whose single ring goes around one particular island (the one nearest this point).
 const RING_ANCHOR = {
-  ki: [-157.4, 1.9],  // Kiribati: the Line Islands around Kiritimati
+  ki: [-157.4, 1.9],  // Kiribati: Kiritimati only
 };
 const MAX_K = 400;           // max zoom factor
 const TINY_PX = 12;          // show a ring when a small country is smaller than this on screen
@@ -83,15 +83,15 @@ function polygonsOf(f) {
 }
 
 // Where a country's ring goes: its largest polygon plus everything within ~650 km, so far-flung
-// islands (e.g. US Aleutians) don't pull the ring away. With an anchor (RING_ANCHOR), it is the
-// polygons within ~1000 km of that point instead, e.g. Kiribati's Line Islands.
+// islands (e.g. US Aleutians) don't pull the ring away. With an anchor (RING_ANCHOR), it is just the
+// one island nearest that point, e.g. Kiribati's Kiritimati.
 function coreOf(fs, anchor) {
   const polys = fs.flatMap(polygonsOf).map(c => {
     const p = { type: 'Polygon', coordinates: c };
     return { p, area: d3.geoArea(p), c: d3.geoCentroid(p) };
   });
   const near = anchor
-    ? polys.filter(q => d3.geoDistance(q.c, anchor) < 0.16)
+    ? [polys[d3.minIndex(polys, q => d3.geoDistance(q.c, anchor))]]
     : (main => polys.filter(q => d3.geoDistance(q.c, main.c) < 0.1))(polys.reduce((m, q) => q.area > m.area ? q : m));
   return { type: 'Feature', geometry: { type: 'MultiPolygon', coordinates: near.map(q => q.p.coordinates) } };
 }
