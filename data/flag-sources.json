@@ -1,0 +1,790 @@
+{
+ "ad": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Andorra",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Andorra.svg"
+ },
+ "ae": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_the_United_Arab_Emirates",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_United_Arab_Emirates.svg"
+ },
+ "af": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Afghanistan",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Islamic_Republic_of_Afghanistan.svg"
+ },
+ "ag": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Antigua_and_Barbuda",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Antigua_and_Barbuda.svg"
+ },
+ "al": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Albania",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Albania.svg"
+ },
+ "am": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Armenia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Armenia.svg"
+ },
+ "ao": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Angola",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Angola_using_the_specifications_prescribed_in_\"Manual_Simbolos_Nacionais\",_V01.05.2021D.svg"
+ },
+ "ar": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Argentina",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Argentina.svg"
+ },
+ "at": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Austria",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Austria.svg"
+ },
+ "au": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Australia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Australia_(converted).svg"
+ },
+ "az": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Azerbaijan",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Azerbaijan.svg"
+ },
+ "ba": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Bosnia_and_Herzegovina",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Bosnia_and_Herzegovina.svg"
+ },
+ "bb": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Barbados",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Barbados.svg"
+ },
+ "bd": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Bangladesh",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Bangladesh.svg"
+ },
+ "be": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Belgium",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Belgium.svg"
+ },
+ "bf": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Burkina_Faso",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Burkina_Faso.svg"
+ },
+ "bg": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Bulgaria",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Bulgaria.svg"
+ },
+ "bh": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Bahrain",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Bahrain.svg"
+ },
+ "bi": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Burundi",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Burundi.svg"
+ },
+ "bj": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Benin",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Benin.svg"
+ },
+ "bn": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Brunei",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Brunei.svg"
+ },
+ "bo": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Bolivia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Bolivia.svg"
+ },
+ "br": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Brazil",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Brazil.svg"
+ },
+ "bs": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_the_Bahamas",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Bahamas.svg"
+ },
+ "bt": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Bhutan",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Bhutan.svg"
+ },
+ "bw": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Botswana",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Botswana.svg"
+ },
+ "by": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Belarus",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Belarus.svg"
+ },
+ "bz": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Belize",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Belize.svg"
+ },
+ "ca": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Canada",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Canada_(Pantone).svg"
+ },
+ "cd": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_the_Democratic_Republic_of_the_Congo",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Democratic_Republic_of_the_Congo.svg"
+ },
+ "cf": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_the_Central_African_Republic",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Central_African_Republic.svg"
+ },
+ "cg": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_the_Republic_of_the_Congo",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Republic_of_the_Congo.svg"
+ },
+ "ch": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Switzerland",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Switzerland_(Pantone).svg"
+ },
+ "ci": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Ivory_Coast",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Côte_d'Ivoire.svg"
+ },
+ "cl": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Chile",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Chile.svg"
+ },
+ "cm": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Cameroon",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Cameroon.svg"
+ },
+ "cn": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_China",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_People's_Republic_of_China.svg"
+ },
+ "co": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Colombia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Colombia.svg"
+ },
+ "cr": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Costa_Rica",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Costa_Rica.svg"
+ },
+ "cu": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Cuba",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Cuba.svg"
+ },
+ "cv": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Cape_Verde",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Cape_Verde_(3-2).svg"
+ },
+ "cy": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Cyprus",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Cyprus.svg"
+ },
+ "cz": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_the_Czech_Republic",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Czech_Republic.svg"
+ },
+ "de": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Germany",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Germany.svg"
+ },
+ "dj": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Djibouti",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Djibouti.svg"
+ },
+ "dk": {
+  "page": "https://en.wikipedia.org/wiki/Dannebrog",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Denmark.svg"
+ },
+ "dm": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Dominica",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Dominica.svg"
+ },
+ "do": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_the_Dominican_Republic",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Dominican_Republic.svg"
+ },
+ "dz": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Algeria",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Algeria.svg"
+ },
+ "ec": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Ecuador",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Ecuador.svg"
+ },
+ "ee": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Estonia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Estonia.svg"
+ },
+ "eg": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Egypt",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Egypt.svg"
+ },
+ "er": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Eritrea",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Eritrea.svg"
+ },
+ "es": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Spain",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Kingdom_of_Spain.svg"
+ },
+ "et": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Ethiopia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Ethiopia.svg"
+ },
+ "fi": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Finland",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Finland.svg"
+ },
+ "fj": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Fiji",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Fiji.svg"
+ },
+ "fm": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_the_Federated_States_of_Micronesia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Federated_States_of_Micronesia.svg"
+ },
+ "fr": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_France",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_France.svg"
+ },
+ "ga": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Gabon",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Gabon.svg"
+ },
+ "gb": {
+  "page": "https://en.wikipedia.org/wiki/Union_Jack",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_United_Kingdom_(1-2).svg"
+ },
+ "gd": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Grenada",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Grenada.svg"
+ },
+ "ge": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Georgia_(country)",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Georgia.svg"
+ },
+ "gh": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Ghana",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Ghana.svg"
+ },
+ "gm": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_the_Gambia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_The_Gambia.svg"
+ },
+ "gn": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Guinea",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Guinea.svg"
+ },
+ "gq": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Equatorial_Guinea",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Equatorial_Guinea.svg"
+ },
+ "gr": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Greece",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Greece.svg"
+ },
+ "gt": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Guatemala",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Guatemala.svg"
+ },
+ "gw": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Guinea-Bissau",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Guinea-Bissau.svg"
+ },
+ "gy": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Guyana",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Guyana.svg"
+ },
+ "hn": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Honduras",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Honduras_(1949–2022,_2026–present).svg"
+ },
+ "hr": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Croatia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Croatia.svg"
+ },
+ "ht": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Haiti",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Haiti.svg"
+ },
+ "hu": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Hungary",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Hungary.svg"
+ },
+ "id": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Indonesia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Indonesia.svg"
+ },
+ "ie": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Ireland",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Ireland.svg"
+ },
+ "il": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Israel",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Israel.svg"
+ },
+ "in": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_India",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_India.svg"
+ },
+ "iq": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Iraq",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Iraq.svg"
+ },
+ "ir": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Iran",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Iran.svg"
+ },
+ "is": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Iceland",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Iceland.svg"
+ },
+ "it": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Italy",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Italy.svg"
+ },
+ "jm": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Jamaica",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Jamaica.svg"
+ },
+ "jo": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Jordan",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Jordan.svg"
+ },
+ "jp": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Japan",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Japan.svg"
+ },
+ "ke": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Kenya",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Kenya.svg"
+ },
+ "kg": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Kyrgyzstan",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Kyrgyzstan.svg"
+ },
+ "kh": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Cambodia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Cambodia.svg"
+ },
+ "ki": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Kiribati",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Kiribati.svg"
+ },
+ "km": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_the_Comoros",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Comoros.svg"
+ },
+ "kn": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Saint_Kitts_and_Nevis",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Saint_Kitts_and_Nevis.svg"
+ },
+ "kp": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_North_Korea",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_North_Korea_(20-33).svg"
+ },
+ "kr": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_South_Korea",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_South_Korea.svg"
+ },
+ "kw": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Kuwait",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Kuwait.svg"
+ },
+ "kz": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Kazakhstan",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Kazakhstan.svg"
+ },
+ "la": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Laos",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Laos.svg"
+ },
+ "lb": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Lebanon",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Lebanon.svg"
+ },
+ "lc": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Saint_Lucia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Saint_Lucia.svg"
+ },
+ "li": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Liechtenstein",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Liechtenstein.svg"
+ },
+ "lk": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Sri_Lanka",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Sri_Lanka.svg"
+ },
+ "lr": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Liberia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Liberia.svg"
+ },
+ "ls": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Lesotho",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Lesotho.svg"
+ },
+ "lt": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Lithuania",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Lithuania.svg"
+ },
+ "lu": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Luxembourg",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Luxembourg.svg"
+ },
+ "lv": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Latvia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Latvia.svg"
+ },
+ "ly": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Libya",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Libya.svg"
+ },
+ "ma": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Morocco",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Morocco.svg"
+ },
+ "mc": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Monaco",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Monaco.svg"
+ },
+ "md": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Moldova",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Moldova.svg"
+ },
+ "me": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Montenegro",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Montenegro.svg"
+ },
+ "mg": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Madagascar",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Madagascar.svg"
+ },
+ "mh": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_the_Marshall_Islands",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Marshall_Islands.svg"
+ },
+ "mk": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_North_Macedonia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_North_Macedonia.svg"
+ },
+ "ml": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Mali",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Mali.svg"
+ },
+ "mm": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Myanmar",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Myanmar.svg"
+ },
+ "mn": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Mongolia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Mongolia.svg"
+ },
+ "mr": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Mauritania",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Mauritania.svg"
+ },
+ "mt": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Malta",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Malta.svg"
+ },
+ "mu": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Mauritius",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Mauritius.svg"
+ },
+ "mv": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_the_Maldives",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Maldives.svg"
+ },
+ "mw": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Malawi",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Malawi.svg"
+ },
+ "mx": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Mexico",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Mexico.svg"
+ },
+ "my": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Malaysia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Malaysia.svg"
+ },
+ "mz": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Mozambique",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Mozambique.svg"
+ },
+ "na": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Namibia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Namibia.svg"
+ },
+ "ne": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Niger",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Niger.svg"
+ },
+ "ng": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Nigeria",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Nigeria.svg"
+ },
+ "ni": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Nicaragua",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Nicaragua.svg"
+ },
+ "nl": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_the_Netherlands",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Netherlands.svg"
+ },
+ "no": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Norway",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Norway.svg"
+ },
+ "np": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Nepal",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Nepal.svg"
+ },
+ "nr": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Nauru",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Nauru.svg"
+ },
+ "nz": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_New_Zealand",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_New_Zealand.svg"
+ },
+ "om": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Oman",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Oman.svg"
+ },
+ "pa": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Panama",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Panama.svg"
+ },
+ "pe": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Peru",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Peru.svg"
+ },
+ "pg": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Papua_New_Guinea",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Papua_New_Guinea.svg"
+ },
+ "ph": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_the_Philippines",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Philippines.svg"
+ },
+ "pk": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Pakistan",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Pakistan.svg"
+ },
+ "pl": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Poland",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Poland.svg"
+ },
+ "ps": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Palestine",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Palestine.svg"
+ },
+ "pt": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Portugal",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Portugal_(official).svg"
+ },
+ "pw": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Palau",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Palau.svg"
+ },
+ "py": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Paraguay",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Paraguay.svg"
+ },
+ "qa": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Qatar",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Qatar.svg"
+ },
+ "ro": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Romania",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Romania.svg"
+ },
+ "rs": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Serbia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Serbia.svg"
+ },
+ "ru": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Russia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Russia.svg"
+ },
+ "rw": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Rwanda",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Rwanda.svg"
+ },
+ "sa": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Saudi_Arabia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Saudi_Arabia.svg"
+ },
+ "sb": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Solomon_Islands",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Solomon_Islands.svg"
+ },
+ "sc": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Seychelles",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Seychelles.svg"
+ },
+ "sd": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Sudan",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Sudan.svg"
+ },
+ "se": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Sweden",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Sweden.svg"
+ },
+ "sg": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Singapore",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Singapore.svg"
+ },
+ "si": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Slovenia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Slovenia.svg"
+ },
+ "sk": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Slovakia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Slovakia.svg"
+ },
+ "sl": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Sierra_Leone",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Sierra_Leone.svg"
+ },
+ "sm": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_San_Marino",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_San_Marino.svg"
+ },
+ "sn": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Senegal",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Senegal.svg"
+ },
+ "so": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Somalia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Somalia.svg"
+ },
+ "sr": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Suriname",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Suriname.svg"
+ },
+ "ss": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_South_Sudan",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_South_Sudan.svg"
+ },
+ "st": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_São_Tomé_and_Príncipe",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_São_Tomé_and_Príncipe.svg"
+ },
+ "sv": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_El_Salvador",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_El_Salvador.svg"
+ },
+ "sy": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Syria",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Syria_(2025-).svg"
+ },
+ "sz": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Eswatini",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Eswatini.svg"
+ },
+ "td": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Chad",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Chad.svg"
+ },
+ "tg": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Togo",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Togo.svg"
+ },
+ "th": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Thailand",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Thailand.svg"
+ },
+ "tj": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Tajikistan",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Tajikistan.svg"
+ },
+ "tl": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Timor-Leste",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_East_Timor.svg"
+ },
+ "tm": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Turkmenistan",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Turkmenistan.svg"
+ },
+ "tn": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Tunisia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Tunisia.svg"
+ },
+ "to": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Tonga",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Tonga.svg"
+ },
+ "tr": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Turkey",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Turkey.svg"
+ },
+ "tt": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Trinidad_and_Tobago",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Trinidad_and_Tobago.svg"
+ },
+ "tv": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Tuvalu",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Tuvalu.svg"
+ },
+ "tw": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_the_Republic_of_China",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Republic_of_China.svg"
+ },
+ "tz": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Tanzania",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Tanzania.svg"
+ },
+ "ua": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Ukraine",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Ukraine.svg"
+ },
+ "ug": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Uganda",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Uganda.svg"
+ },
+ "us": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_the_United_States",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_the_United_States_(DDD-F-416E_specifications).svg"
+ },
+ "uy": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Uruguay",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Uruguay.svg"
+ },
+ "uz": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Uzbekistan",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Uzbekistan.svg"
+ },
+ "va": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Vatican_City",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Vatican_City_(2023–present).svg"
+ },
+ "vc": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Saint_Vincent_and_the_Grenadines",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Saint_Vincent_and_the_Grenadines.svg"
+ },
+ "ve": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Venezuela",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Venezuela.svg"
+ },
+ "vn": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Vietnam",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Vietnam.svg"
+ },
+ "vu": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Vanuatu",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Vanuatu_(official).svg"
+ },
+ "ws": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Samoa",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Samoa.svg"
+ },
+ "xk": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Kosovo",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Kosovo.svg"
+ },
+ "ye": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Yemen",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Yemen.svg"
+ },
+ "za": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_South_Africa",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_South_Africa.svg"
+ },
+ "zm": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Zambia",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Zambia.svg"
+ },
+ "zw": {
+  "page": "https://en.wikipedia.org/wiki/Flag_of_Zimbabwe",
+  "file": "https://commons.wikimedia.org/wiki/File:Flag_of_Zimbabwe.svg"
+ }
+}

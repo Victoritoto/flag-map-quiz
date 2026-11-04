@@ -63,7 +63,8 @@ const S = {
 
 // ---------- utils ----------
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-const flagSrc = c => `flags/${c}.svg`;
+const FLAG_VERSION = 3;  // bump when flag files change so browsers don't show cached old flags
+const flagSrc = c => `flags/${c}.svg?v=${FLAG_VERSION}`;
 const esc = s => s.replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 
 function polygonsOf(f) {
@@ -489,7 +490,7 @@ function regionPicker(first) {
 
 const cell = (code, extra = '') => {
   const c = byCode.get(code);
-  return `<div class="cell"><img src="${flagSrc(code)}" alt="" loading="lazy">${esc(c.name)}${extra}</div>`;
+  return `<div class="cell"><div class="fl"><img src="${flagSrc(code)}" alt="" loading="lazy"></div>${esc(c.name)}${extra}</div>`;
 };
 const byName = (a, b) => byCode.get(a).name.localeCompare(byCode.get(b).name);
 function section(title, codes, render = c => cell(c), empty = 'None yet') {

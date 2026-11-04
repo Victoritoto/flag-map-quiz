@@ -1,13 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-cv" viewBox="0 0 640 480">
-  <defs>
-    <clipPath id="cv-a">
-      <path fill-opacity=".7" d="M-123.4 0h682.6v512h-682.6z"/>
-    </clipPath>
-  </defs>
-  <g fill-rule="evenodd" clip-path="url(#cv-a)" transform="translate(115.7)scale(.94)">
-    <path fill="#fff" d="M-123.4 233H723v206h-846.5z"/>
-    <path fill="#081873" d="M-122.8 0h846v256.6h-846zm.3 385.9h852.1V512h-852.1z"/>
-    <path fill="#de3929" d="M-122.5 302.6h846v39.6h-846z"/>
-    <path fill="#ffce08" d="m131 399.2 6.6 20.4H159l-17.4 12.7 6.6 20.5L131 440l-17.4 12.7 6.7-20.5-17.4-12.7h21.5M317 250.4l6.7 20.5H345l-17.4 12.6 6.6 20.5-17.4-12.7-17.4 12.7 6.6-20.5-17.4-12.6h21.6m-222 64.4 6.6 20.5h21.5L99 368.6l6.7 20.4-17.4-12.6L70.9 389l6.6-20.4-17.4-12.7h21.5M317 329.5l6.7 20.4H345l-17.4 12.7 6.6 20.4-17.4-12.6-17.4 12.7 6.6-20.5-17.4-12.7h21.6m-40.5-161.7 6.7 20.4H298l-17.4 12.7 6.6 20.5-17.4-12.7-17.4 12.7 6.7-20.5-17.5-12.7h21.6m-64.5-45.2 6.7 20.5h21.5l-17.4 12.6 6.6 20.5-17.4-12.6-17.4 12.6 6.7-20.5-17.4-12.6H192m-64.5 2.9 6.7 20.5h21.5l-17.4 12.6 6.7 20.5-17.5-12.7-17.4 12.7 6.7-20.5-17.4-12.6H121m-34.8 43.2 6.6 20.5h21.6l-17.5 12.6 6.7 20.5-17.4-12.7-17.4 12.7 6.6-20.5L58 271h21.5m119.2 149.4 6.7 20.5h21.5l-17.4 12.6 6.7 20.5-17.5-12.7-17.4 12.7 6.7-20.5-17.4-12.6H192m82.2-41.7 6.6 20.4h21.5L285 432.3l6.7 20.5-17.4-12.7-17.5 12.7 6.7-20.5-17.4-12.7h21.5"/>
-  </g>
-</svg>
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600"><path fill="#003893" d="M0 0h900v600H0"/><path fill="#FFF" d="M0 300h900v150H0"/><path fill="#CF2027" d="M0 350h900v50H0"/><g transform="translate(337.5 375)"><g id="Q"><g id="P"><g transform="translate(0 150)"><g id="S"><g id="p"><!--50*(5-sqrt(5))/5--><g id="s" transform="translate(0-27.639320225002103035908263312687237645593816403884742757291027545)"><g id="h"><path fill="#F7D116" d="M0 0V27H9" transform="rotate(18)"/></g><use xlink:href="#h" transform="scale(-1 1)"/></g><use xlink:href="#s" transform="rotate(72)"/></g><use xlink:href="#p" transform="rotate(144)"/><use xlink:href="#s" transform="rotate(288)"/></g></g><use xlink:href="#S" transform="rotate(36) translate(0 150) rotate(36)"/></g><use xlink:href="#P" transform="rotate(72)"/></g><use xlink:href="#Q" transform="rotate(144)"/><use xlink:href="#P" transform="rotate(288)"/></g></svg>

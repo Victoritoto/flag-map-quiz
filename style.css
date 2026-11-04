@@ -53,11 +53,12 @@ button.ghost { background: transparent; }
 }
 #flagCard { display: flex; align-items: center; gap: 18px; min-width: 0; }
 #flagFrame {
-  width: 152px; height: 114px; flex: none;
+  --fw: 172px; --fh: 114px;
+  width: var(--fw); height: var(--fh); flex: none;
   display: grid; place-items: center;
 }
 #flag {
-  max-width: 100%; max-height: 100%;
+  max-width: var(--fw); max-height: var(--fh); width: auto; height: auto;
   border-radius: 6px;
   box-shadow: 0 0 0 1px rgba(0,0,0,.08), 0 6px 18px rgba(40,40,30,.14);
   transition: opacity .18s, transform .18s;
@@ -187,7 +188,8 @@ button.ghost { background: transparent; }
 .actions { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px; }
 .cell { text-align: center; font-size: 12.5px; line-height: 1.25; }
-.cell img { width: 64px; height: 48px; object-fit: contain; display: block; margin: 0 auto 5px; border-radius: 3px; box-shadow: 0 0 0 1px rgba(0,0,0,.08); }
+.cell .fl { height: 48px; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; }
+.cell img { max-width: 66px; max-height: 46px; display: block; border-radius: 3px; box-shadow: 0 0 0 1px rgba(0,0,0,.08); }
 .cell .fixed { color: var(--good); font-size: 11px; }
 .empty { color: var(--muted); font-size: 14px; }
 .score { font-size: 46px; font-weight: 700; letter-spacing: -1px; margin: 8px 0 0; }
@@ -199,7 +201,7 @@ button.ghost { background: transparent; }
 /* ---------- phone ---------- */
 @media (max-width: 640px) {
   #bar { flex-direction: column; align-items: stretch; gap: 8px; padding: 10px 14px; padding-top: max(10px, env(safe-area-inset-top)); }
-  #flagFrame { width: 112px; height: 84px; }
+  #flagFrame { --fw: 128px; --fh: 84px; }
   #flagCard { gap: 14px; }
   #name { font-size: 19px; }
   #prompt { font-size: 13px; }
