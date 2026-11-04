@@ -1,0 +1,1184 @@
+[
+{
+"code": "af",
+"num": "004",
+"name": "Afghanistan",
+"region": "Asia"
+},
+{
+"code": "al",
+"num": "008",
+"name": "Albania",
+"region": "Europe"
+},
+{
+"code": "dz",
+"num": "012",
+"name": "Algeria",
+"region": "Africa"
+},
+{
+"code": "ad",
+"num": "020",
+"name": "Andorra",
+"region": "Europe"
+},
+{
+"code": "ao",
+"num": "024",
+"name": "Angola",
+"region": "Africa"
+},
+{
+"code": "ag",
+"num": "028",
+"name": "Antigua and Barbuda",
+"region": "Americas"
+},
+{
+"code": "ar",
+"num": "032",
+"name": "Argentina",
+"region": "Americas"
+},
+{
+"code": "am",
+"num": "051",
+"name": "Armenia",
+"region": "Asia"
+},
+{
+"code": "au",
+"num": "036",
+"name": "Australia",
+"region": "Oceania"
+},
+{
+"code": "at",
+"num": "040",
+"name": "Austria",
+"region": "Europe"
+},
+{
+"code": "az",
+"num": "031",
+"name": "Azerbaijan",
+"region": "Asia"
+},
+{
+"code": "bs",
+"num": "044",
+"name": "Bahamas",
+"region": "Americas"
+},
+{
+"code": "bh",
+"num": "048",
+"name": "Bahrain",
+"region": "Asia"
+},
+{
+"code": "bd",
+"num": "050",
+"name": "Bangladesh",
+"region": "Asia"
+},
+{
+"code": "bb",
+"num": "052",
+"name": "Barbados",
+"region": "Americas"
+},
+{
+"code": "by",
+"num": "112",
+"name": "Belarus",
+"region": "Europe"
+},
+{
+"code": "be",
+"num": "056",
+"name": "Belgium",
+"region": "Europe"
+},
+{
+"code": "bz",
+"num": "084",
+"name": "Belize",
+"region": "Americas"
+},
+{
+"code": "bj",
+"num": "204",
+"name": "Benin",
+"region": "Africa"
+},
+{
+"code": "bt",
+"num": "064",
+"name": "Bhutan",
+"region": "Asia"
+},
+{
+"code": "bo",
+"num": "068",
+"name": "Bolivia",
+"region": "Americas"
+},
+{
+"code": "ba",
+"num": "070",
+"name": "Bosnia and Herzegovina",
+"region": "Europe"
+},
+{
+"code": "bw",
+"num": "072",
+"name": "Botswana",
+"region": "Africa"
+},
+{
+"code": "br",
+"num": "076",
+"name": "Brazil",
+"region": "Americas"
+},
+{
+"code": "bn",
+"num": "096",
+"name": "Brunei",
+"region": "Asia"
+},
+{
+"code": "bg",
+"num": "100",
+"name": "Bulgaria",
+"region": "Europe"
+},
+{
+"code": "bf",
+"num": "854",
+"name": "Burkina Faso",
+"region": "Africa"
+},
+{
+"code": "bi",
+"num": "108",
+"name": "Burundi",
+"region": "Africa"
+},
+{
+"code": "cv",
+"num": "132",
+"name": "Cabo Verde",
+"region": "Africa"
+},
+{
+"code": "kh",
+"num": "116",
+"name": "Cambodia",
+"region": "Asia"
+},
+{
+"code": "cm",
+"num": "120",
+"name": "Cameroon",
+"region": "Africa"
+},
+{
+"code": "ca",
+"num": "124",
+"name": "Canada",
+"region": "Americas"
+},
+{
+"code": "cf",
+"num": "140",
+"name": "Central African Republic",
+"region": "Africa"
+},
+{
+"code": "td",
+"num": "148",
+"name": "Chad",
+"region": "Africa"
+},
+{
+"code": "cl",
+"num": "152",
+"name": "Chile",
+"region": "Americas"
+},
+{
+"code": "cn",
+"num": "156",
+"name": "China",
+"region": "Asia"
+},
+{
+"code": "co",
+"num": "170",
+"name": "Colombia",
+"region": "Americas"
+},
+{
+"code": "km",
+"num": "174",
+"name": "Comoros",
+"region": "Africa"
+},
+{
+"code": "cg",
+"num": "178",
+"name": "Congo",
+"region": "Africa"
+},
+{
+"code": "cd",
+"num": "180",
+"name": "DR Congo",
+"region": "Africa"
+},
+{
+"code": "cr",
+"num": "188",
+"name": "Costa Rica",
+"region": "Americas"
+},
+{
+"code": "ci",
+"num": "384",
+"name": "Côte d'Ivoire",
+"region": "Africa"
+},
+{
+"code": "hr",
+"num": "191",
+"name": "Croatia",
+"region": "Europe"
+},
+{
+"code": "cu",
+"num": "192",
+"name": "Cuba",
+"region": "Americas"
+},
+{
+"code": "cy",
+"num": "196",
+"name": "Cyprus",
+"region": "Europe"
+},
+{
+"code": "cz",
+"num": "203",
+"name": "Czechia",
+"region": "Europe"
+},
+{
+"code": "dk",
+"num": "208",
+"name": "Denmark",
+"region": "Europe"
+},
+{
+"code": "dj",
+"num": "262",
+"name": "Djibouti",
+"region": "Africa"
+},
+{
+"code": "dm",
+"num": "212",
+"name": "Dominica",
+"region": "Americas"
+},
+{
+"code": "do",
+"num": "214",
+"name": "Dominican Republic",
+"region": "Americas"
+},
+{
+"code": "ec",
+"num": "218",
+"name": "Ecuador",
+"region": "Americas"
+},
+{
+"code": "eg",
+"num": "818",
+"name": "Egypt",
+"region": "Africa"
+},
+{
+"code": "sv",
+"num": "222",
+"name": "El Salvador",
+"region": "Americas"
+},
+{
+"code": "gq",
+"num": "226",
+"name": "Equatorial Guinea",
+"region": "Africa"
+},
+{
+"code": "er",
+"num": "232",
+"name": "Eritrea",
+"region": "Africa"
+},
+{
+"code": "ee",
+"num": "233",
+"name": "Estonia",
+"region": "Europe"
+},
+{
+"code": "sz",
+"num": "748",
+"name": "Eswatini",
+"region": "Africa"
+},
+{
+"code": "et",
+"num": "231",
+"name": "Ethiopia",
+"region": "Africa"
+},
+{
+"code": "fj",
+"num": "242",
+"name": "Fiji",
+"region": "Oceania"
+},
+{
+"code": "fi",
+"num": "246",
+"name": "Finland",
+"region": "Europe"
+},
+{
+"code": "fr",
+"num": "250",
+"name": "France",
+"region": "Europe"
+},
+{
+"code": "ga",
+"num": "266",
+"name": "Gabon",
+"region": "Africa"
+},
+{
+"code": "gm",
+"num": "270",
+"name": "Gambia",
+"region": "Africa"
+},
+{
+"code": "ge",
+"num": "268",
+"name": "Georgia",
+"region": "Asia"
+},
+{
+"code": "de",
+"num": "276",
+"name": "Germany",
+"region": "Europe"
+},
+{
+"code": "gh",
+"num": "288",
+"name": "Ghana",
+"region": "Africa"
+},
+{
+"code": "gr",
+"num": "300",
+"name": "Greece",
+"region": "Europe"
+},
+{
+"code": "gd",
+"num": "308",
+"name": "Grenada",
+"region": "Americas"
+},
+{
+"code": "gt",
+"num": "320",
+"name": "Guatemala",
+"region": "Americas"
+},
+{
+"code": "gn",
+"num": "324",
+"name": "Guinea",
+"region": "Africa"
+},
+{
+"code": "gw",
+"num": "624",
+"name": "Guinea-Bissau",
+"region": "Africa"
+},
+{
+"code": "gy",
+"num": "328",
+"name": "Guyana",
+"region": "Americas"
+},
+{
+"code": "ht",
+"num": "332",
+"name": "Haiti",
+"region": "Americas"
+},
+{
+"code": "hn",
+"num": "340",
+"name": "Honduras",
+"region": "Americas"
+},
+{
+"code": "hu",
+"num": "348",
+"name": "Hungary",
+"region": "Europe"
+},
+{
+"code": "is",
+"num": "352",
+"name": "Iceland",
+"region": "Europe"
+},
+{
+"code": "in",
+"num": "356",
+"name": "India",
+"region": "Asia"
+},
+{
+"code": "id",
+"num": "360",
+"name": "Indonesia",
+"region": "Asia"
+},
+{
+"code": "ir",
+"num": "364",
+"name": "Iran",
+"region": "Asia"
+},
+{
+"code": "iq",
+"num": "368",
+"name": "Iraq",
+"region": "Asia"
+},
+{
+"code": "ie",
+"num": "372",
+"name": "Ireland",
+"region": "Europe"
+},
+{
+"code": "il",
+"num": "376",
+"name": "Israel",
+"region": "Asia"
+},
+{
+"code": "it",
+"num": "380",
+"name": "Italy",
+"region": "Europe"
+},
+{
+"code": "jm",
+"num": "388",
+"name": "Jamaica",
+"region": "Americas"
+},
+{
+"code": "jp",
+"num": "392",
+"name": "Japan",
+"region": "Asia"
+},
+{
+"code": "jo",
+"num": "400",
+"name": "Jordan",
+"region": "Asia"
+},
+{
+"code": "kz",
+"num": "398",
+"name": "Kazakhstan",
+"region": "Asia"
+},
+{
+"code": "ke",
+"num": "404",
+"name": "Kenya",
+"region": "Africa"
+},
+{
+"code": "ki",
+"num": "296",
+"name": "Kiribati",
+"region": "Oceania"
+},
+{
+"code": "kw",
+"num": "414",
+"name": "Kuwait",
+"region": "Asia"
+},
+{
+"code": "kg",
+"num": "417",
+"name": "Kyrgyzstan",
+"region": "Asia"
+},
+{
+"code": "la",
+"num": "418",
+"name": "Laos",
+"region": "Asia"
+},
+{
+"code": "lv",
+"num": "428",
+"name": "Latvia",
+"region": "Europe"
+},
+{
+"code": "lb",
+"num": "422",
+"name": "Lebanon",
+"region": "Asia"
+},
+{
+"code": "ls",
+"num": "426",
+"name": "Lesotho",
+"region": "Africa"
+},
+{
+"code": "lr",
+"num": "430",
+"name": "Liberia",
+"region": "Africa"
+},
+{
+"code": "ly",
+"num": "434",
+"name": "Libya",
+"region": "Africa"
+},
+{
+"code": "li",
+"num": "438",
+"name": "Liechtenstein",
+"region": "Europe"
+},
+{
+"code": "lt",
+"num": "440",
+"name": "Lithuania",
+"region": "Europe"
+},
+{
+"code": "lu",
+"num": "442",
+"name": "Luxembourg",
+"region": "Europe"
+},
+{
+"code": "mg",
+"num": "450",
+"name": "Madagascar",
+"region": "Africa"
+},
+{
+"code": "mw",
+"num": "454",
+"name": "Malawi",
+"region": "Africa"
+},
+{
+"code": "my",
+"num": "458",
+"name": "Malaysia",
+"region": "Asia"
+},
+{
+"code": "mv",
+"num": "462",
+"name": "Maldives",
+"region": "Asia"
+},
+{
+"code": "ml",
+"num": "466",
+"name": "Mali",
+"region": "Africa"
+},
+{
+"code": "mt",
+"num": "470",
+"name": "Malta",
+"region": "Europe"
+},
+{
+"code": "mh",
+"num": "584",
+"name": "Marshall Islands",
+"region": "Oceania"
+},
+{
+"code": "mr",
+"num": "478",
+"name": "Mauritania",
+"region": "Africa"
+},
+{
+"code": "mu",
+"num": "480",
+"name": "Mauritius",
+"region": "Africa"
+},
+{
+"code": "mx",
+"num": "484",
+"name": "Mexico",
+"region": "Americas"
+},
+{
+"code": "fm",
+"num": "583",
+"name": "Micronesia",
+"region": "Oceania"
+},
+{
+"code": "md",
+"num": "498",
+"name": "Moldova",
+"region": "Europe"
+},
+{
+"code": "mc",
+"num": "492",
+"name": "Monaco",
+"region": "Europe"
+},
+{
+"code": "mn",
+"num": "496",
+"name": "Mongolia",
+"region": "Asia"
+},
+{
+"code": "me",
+"num": "499",
+"name": "Montenegro",
+"region": "Europe"
+},
+{
+"code": "ma",
+"num": "504",
+"name": "Morocco",
+"region": "Africa"
+},
+{
+"code": "mz",
+"num": "508",
+"name": "Mozambique",
+"region": "Africa"
+},
+{
+"code": "mm",
+"num": "104",
+"name": "Myanmar",
+"region": "Asia"
+},
+{
+"code": "na",
+"num": "516",
+"name": "Namibia",
+"region": "Africa"
+},
+{
+"code": "nr",
+"num": "520",
+"name": "Nauru",
+"region": "Oceania"
+},
+{
+"code": "np",
+"num": "524",
+"name": "Nepal",
+"region": "Asia"
+},
+{
+"code": "nl",
+"num": "528",
+"name": "Netherlands",
+"region": "Europe"
+},
+{
+"code": "nz",
+"num": "554",
+"name": "New Zealand",
+"region": "Oceania"
+},
+{
+"code": "ni",
+"num": "558",
+"name": "Nicaragua",
+"region": "Americas"
+},
+{
+"code": "ne",
+"num": "562",
+"name": "Niger",
+"region": "Africa"
+},
+{
+"code": "ng",
+"num": "566",
+"name": "Nigeria",
+"region": "Africa"
+},
+{
+"code": "kp",
+"num": "408",
+"name": "North Korea",
+"region": "Asia"
+},
+{
+"code": "mk",
+"num": "807",
+"name": "North Macedonia",
+"region": "Europe"
+},
+{
+"code": "no",
+"num": "578",
+"name": "Norway",
+"region": "Europe"
+},
+{
+"code": "om",
+"num": "512",
+"name": "Oman",
+"region": "Asia"
+},
+{
+"code": "pk",
+"num": "586",
+"name": "Pakistan",
+"region": "Asia"
+},
+{
+"code": "pw",
+"num": "585",
+"name": "Palau",
+"region": "Oceania"
+},
+{
+"code": "pa",
+"num": "591",
+"name": "Panama",
+"region": "Americas"
+},
+{
+"code": "pg",
+"num": "598",
+"name": "Papua New Guinea",
+"region": "Oceania"
+},
+{
+"code": "py",
+"num": "600",
+"name": "Paraguay",
+"region": "Americas"
+},
+{
+"code": "pe",
+"num": "604",
+"name": "Peru",
+"region": "Americas"
+},
+{
+"code": "ph",
+"num": "608",
+"name": "Philippines",
+"region": "Asia"
+},
+{
+"code": "pl",
+"num": "616",
+"name": "Poland",
+"region": "Europe"
+},
+{
+"code": "pt",
+"num": "620",
+"name": "Portugal",
+"region": "Europe"
+},
+{
+"code": "qa",
+"num": "634",
+"name": "Qatar",
+"region": "Asia"
+},
+{
+"code": "ro",
+"num": "642",
+"name": "Romania",
+"region": "Europe"
+},
+{
+"code": "ru",
+"num": "643",
+"name": "Russia",
+"region": "Europe"
+},
+{
+"code": "rw",
+"num": "646",
+"name": "Rwanda",
+"region": "Africa"
+},
+{
+"code": "kn",
+"num": "659",
+"name": "Saint Kitts and Nevis",
+"region": "Americas"
+},
+{
+"code": "lc",
+"num": "662",
+"name": "Saint Lucia",
+"region": "Americas"
+},
+{
+"code": "vc",
+"num": "670",
+"name": "Saint Vincent and the Grenadines",
+"region": "Americas"
+},
+{
+"code": "ws",
+"num": "882",
+"name": "Samoa",
+"region": "Oceania"
+},
+{
+"code": "sm",
+"num": "674",
+"name": "San Marino",
+"region": "Europe"
+},
+{
+"code": "st",
+"num": "678",
+"name": "São Tomé and Príncipe",
+"region": "Africa"
+},
+{
+"code": "sa",
+"num": "682",
+"name": "Saudi Arabia",
+"region": "Asia"
+},
+{
+"code": "sn",
+"num": "686",
+"name": "Senegal",
+"region": "Africa"
+},
+{
+"code": "rs",
+"num": "688",
+"name": "Serbia",
+"region": "Europe"
+},
+{
+"code": "sc",
+"num": "690",
+"name": "Seychelles",
+"region": "Africa"
+},
+{
+"code": "sl",
+"num": "694",
+"name": "Sierra Leone",
+"region": "Africa"
+},
+{
+"code": "sg",
+"num": "702",
+"name": "Singapore",
+"region": "Asia"
+},
+{
+"code": "sk",
+"num": "703",
+"name": "Slovakia",
+"region": "Europe"
+},
+{
+"code": "si",
+"num": "705",
+"name": "Slovenia",
+"region": "Europe"
+},
+{
+"code": "sb",
+"num": "090",
+"name": "Solomon Islands",
+"region": "Oceania"
+},
+{
+"code": "so",
+"num": "706",
+"name": "Somalia",
+"region": "Africa"
+},
+{
+"code": "za",
+"num": "710",
+"name": "South Africa",
+"region": "Africa"
+},
+{
+"code": "kr",
+"num": "410",
+"name": "South Korea",
+"region": "Asia"
+},
+{
+"code": "ss",
+"num": "728",
+"name": "South Sudan",
+"region": "Africa"
+},
+{
+"code": "es",
+"num": "724",
+"name": "Spain",
+"region": "Europe"
+},
+{
+"code": "lk",
+"num": "144",
+"name": "Sri Lanka",
+"region": "Asia"
+},
+{
+"code": "sd",
+"num": "729",
+"name": "Sudan",
+"region": "Africa"
+},
+{
+"code": "sr",
+"num": "740",
+"name": "Suriname",
+"region": "Americas"
+},
+{
+"code": "se",
+"num": "752",
+"name": "Sweden",
+"region": "Europe"
+},
+{
+"code": "ch",
+"num": "756",
+"name": "Switzerland",
+"region": "Europe"
+},
+{
+"code": "sy",
+"num": "760",
+"name": "Syria",
+"region": "Asia"
+},
+{
+"code": "tj",
+"num": "762",
+"name": "Tajikistan",
+"region": "Asia"
+},
+{
+"code": "tz",
+"num": "834",
+"name": "Tanzania",
+"region": "Africa"
+},
+{
+"code": "th",
+"num": "764",
+"name": "Thailand",
+"region": "Asia"
+},
+{
+"code": "tl",
+"num": "626",
+"name": "Timor-Leste",
+"region": "Asia"
+},
+{
+"code": "tg",
+"num": "768",
+"name": "Togo",
+"region": "Africa"
+},
+{
+"code": "to",
+"num": "776",
+"name": "Tonga",
+"region": "Oceania"
+},
+{
+"code": "tt",
+"num": "780",
+"name": "Trinidad and Tobago",
+"region": "Americas"
+},
+{
+"code": "tn",
+"num": "788",
+"name": "Tunisia",
+"region": "Africa"
+},
+{
+"code": "tr",
+"num": "792",
+"name": "Turkey",
+"region": "Asia"
+},
+{
+"code": "tm",
+"num": "795",
+"name": "Turkmenistan",
+"region": "Asia"
+},
+{
+"code": "tv",
+"num": "798",
+"name": "Tuvalu",
+"region": "Oceania"
+},
+{
+"code": "ug",
+"num": "800",
+"name": "Uganda",
+"region": "Africa"
+},
+{
+"code": "ua",
+"num": "804",
+"name": "Ukraine",
+"region": "Europe"
+},
+{
+"code": "ae",
+"num": "784",
+"name": "United Arab Emirates",
+"region": "Asia"
+},
+{
+"code": "gb",
+"num": "826",
+"name": "United Kingdom",
+"region": "Europe"
+},
+{
+"code": "us",
+"num": "840",
+"name": "United States",
+"region": "Americas"
+},
+{
+"code": "uy",
+"num": "858",
+"name": "Uruguay",
+"region": "Americas"
+},
+{
+"code": "uz",
+"num": "860",
+"name": "Uzbekistan",
+"region": "Asia"
+},
+{
+"code": "vu",
+"num": "548",
+"name": "Vanuatu",
+"region": "Oceania"
+},
+{
+"code": "va",
+"num": "336",
+"name": "Vatican City",
+"region": "Europe"
+},
+{
+"code": "ve",
+"num": "862",
+"name": "Venezuela",
+"region": "Americas"
+},
+{
+"code": "vn",
+"num": "704",
+"name": "Vietnam",
+"region": "Asia"
+},
+{
+"code": "ye",
+"num": "887",
+"name": "Yemen",
+"region": "Asia"
+},
+{
+"code": "zm",
+"num": "894",
+"name": "Zambia",
+"region": "Africa"
+},
+{
+"code": "zw",
+"num": "716",
+"name": "Zimbabwe",
+"region": "Africa"
+},
+{
+"code": "ps",
+"num": "275",
+"name": "Palestine",
+"region": "Asia"
+},
+{
+"code": "xk",
+"num": "KOSOVO",
+"name": "Kosovo",
+"region": "Europe"
+},
+{
+"code": "tw",
+"num": "158",
+"name": "Taiwan",
+"region": "Asia"
+}
+]
