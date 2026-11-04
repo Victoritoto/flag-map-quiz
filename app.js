@@ -5,7 +5,7 @@ const REGIONS = ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania'];
 // Rough lon/lat boxes used to frame the map on the chosen region(s).
 const REGION_BOX = {
   Africa:   [[-26, -36], [58, 38]],
-  Americas: [[-170, -56], [-30, 72]],
+  Americas: [[-168, -56], [-30, 72]],
   Asia:     [[25, -11], [150, 56]],
   Europe:   [[-25, 34], [45, 71]],
   Oceania:  [[110, -48], [190, 20]],
@@ -14,6 +14,12 @@ const REGION_BOX = {
 const NAME_TO_CODE = { 'Kosovo': 'xk', 'N. Cyprus': 'cy', 'Somaliland': 'so' };
 const TERRITORY_NAMES = { 'W. Sahara': 'Western Sahara', 'Siachen Glacier': 'Siachen Glacier (disputed)' };
 const ANTARCTICA = '010';
+// The map is centred on 11°E, so its wrap-around edge runs down 169°W: through the Bering Strait
+// (Russia's Chukotka stays right, Alaska left) and east of Samoa, Tonga and Kiribati's Gilbert and Phoenix Islands.
+const ROTATION = -11;
+const EDGE_LON = -180 - ROTATION;
+// Where to centre a country's ring when its largest island is not its heartland.
+const CORE_ANCHOR = { ki: [172.98, 1.42] };  // Kiribati: Tarawa (Gilbert Islands), not Kiritimati far to the east
 const MAX_K = 400;           // max zoom factor
 const TINY_PX = 12;          // show a ring when a small country is smaller than this on screen
 const SMALL_SR = 30000 / 40.6e6; // only countries under ~30,000 km² (in steradians) get rings
@@ -45,7 +51,6 @@ const zoomLayer = svg.append('g');
 const landG = zoomLayer.append('g').attr('class', 'land');
 const ringsG = zoomLayer.append('g').attr('class', 'rings');
 let projection, path, W = 0, H = 0, homeT = d3.zoomIdentity, curT = d3.zoomIdentity;
-let rotation = -11;
 let labels = [];           // [{el, x, y}] in projected (unzoomed) coords
 let isTouch = matchMedia('(pointer: coarse)').matches;
 const zoom = d3.zoom().scaleExtent([0.7, MAX_K]).on('zoom', ev => {
@@ -75,14 +80,14 @@ function polygonsOf(f) {
   return g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
 }
 
-// The "core" of a country: its largest polygon plus everything within ~650 km.
-// Used to place rings and to zoom, so far-flung islands (e.g. Kiribati, US Aleutians) don't break framing.
-function coreOf(fs) {
+// The "core" of a country: its largest polygon (or the one nearest its anchor) plus everything within ~650 km.
+// Used to place rings, so far-flung islands (e.g. Kiribati, US Aleutians) don't pull them away.
+function coreOf(fs, anchor) {
   const polys = fs.flatMap(polygonsOf).map(c => {
     const p = { type: 'Polygon', coordinates: c };
     return { p, area: d3.geoArea(p), c: d3.geoCentroid(p) };
   });
-  polys.sort((a, b) => b.area - a.area);
+  polys.sort((a, b) => anchor ? d3.geoDistance(a.c, anchor) - d3.geoDistance(b.c, anchor) : b.area - a.area);
   const main = polys[0];
   const near = polys.filter(q => d3.geoDistance(q.c, main.c) < 0.1);
   return {
@@ -90,6 +95,26 @@ function coreOf(fs) {
     geometry: { type: 'MultiPolygon', coordinates: near.map(q => q.p.coordinates) },
     area: polys.reduce((s, q) => s + q.area, 0),
   };
+}
+
+// No meridian crosses the Bering Sea without touching land, so a few slivers (e.g. the east tip of
+// St. Lawrence Island) poke over the map edge and would be drawn at the far side. Pull such slivers
+// back onto the side where the rest of their island is, so no shape is ever split across the map.
+function keepOffEdge(f) {
+  const rel = lon => ((lon - EDGE_LON) % 360 + 360) % 360;  // 0..360, measured east from the edge
+  const eps = 1e-4;
+  for (const poly of polygonsOf(f)) for (const ring of poly) {
+    const r = ring.map(p => rel(p[0]));
+    let crosses = false;
+    for (let i = 1; i < r.length; i++) if (Math.abs(r[i] - r[i - 1]) > 180) { crosses = true; break; }
+    if (!crosses) continue;
+    const west = r.filter(v => v > 180).length;  // points just west of the edge (shown at the right)
+    const toWest = west >= r.length - west;
+    ring.forEach((p, i) => {
+      if (toWest && r[i] < 180) p[0] = EDGE_LON - eps;
+      if (!toWest && r[i] > 180) p[0] = EDGE_LON + eps;
+    });
+  }
 }
 
 // ---------- loading ----------
@@ -106,6 +131,7 @@ async function load() {
   const all = topojson.feature(topo, topo.objects.countries).features.concat(extra.features);
   for (const f of all) {
     if (f.id === ANTARCTICA) continue;
+    keepOffEdge(f);
     const nm = f.properties.name;
     const code = numToCode.get(f.id) || NAME_TO_CODE[nm] || null;
     features.push({ feature: f, code, name: code ? byCode.get(code).name : (TERRITORY_NAMES[nm] || nm) });
@@ -114,22 +140,21 @@ async function load() {
   for (const f of features) if (f.code) geo.get(f.code).fs.push(f.feature);
   const missing = list.filter(c => !geo.get(c.code).fs.length);
   if (missing.length) console.error('No shape for', missing.map(c => c.name));
-  for (const [code, g] of geo) g.core = coreOf(g.fs);
-  window.__quiz = { countries, geo, features, S, pick: code => pick({ code, name: byCode.get(code).name }, 0, 0) };  // handy for checking in the console
+  for (const [code, g] of geo) g.core = coreOf(g.fs, CORE_ANCHOR[code]);
+  // handy for checking in the console
+  window.__quiz = {
+    countries, geo, features, S,
+    pick: code => pick({ code, name: byCode.get(code).name }, 0, 0),
+    view: (lon, lat, k) => { const [x, y] = projection([lon, lat]); svg.call(zoom.transform, d3.zoomIdentity.translate(W / 2, H / 2).scale(k).translate(-x, -y)); },
+  };
 }
 
 // ---------- map rendering ----------
-function rotationFor(regions) {
-  if (regions.size === 1 && regions.has('Oceania')) return -165;
-  if (regions.size === 1 && regions.has('Americas')) return 80;
-  return -11;
-}
-
 function render() {
   W = wrap.clientWidth; H = wrap.clientHeight;
   svg.attr('viewBox', null);
   const world = { type: 'FeatureCollection', features: features.map(f => f.feature) };
-  projection = d3.geoNaturalEarth1().rotate([rotation, 0]).fitExtent([[6, 6], [W - 6, H - 6]], world);
+  projection = d3.geoNaturalEarth1().rotate([ROTATION, 0]).fitExtent([[6, 6], [W - 6, H - 6]], world);
   path = d3.geoPath(projection);
 
   for (const g of geo.values()) g.paths = [];
@@ -341,10 +366,10 @@ function flashBadTerritory(el) {
 // ---------- game flow ----------
 function startSession(regions) {
   clearTimeout(S.timer); clearTimeout(S.flashTimer);
-  const rot = rotationFor(regions);
   S.regions = new Set(regions);
-  if (rot !== rotation || !projection) { rotation = rot; render(); }
-  else { applyRegionClasses(); homeT = fitTransform(homeBounds(), 0.92, MAX_K, homeCrop()); svg.transition().duration(600).call(zoom.transform, homeT); }
+  applyRegionClasses();
+  homeT = fitTransform(homeBounds(), 0.92, MAX_K, homeCrop());
+  svg.transition().duration(600).call(zoom.transform, homeT);
   Object.assign(S, {
     pool: countries.filter(c => S.regions.has(c.region)).map(c => c.code),
     idx: 0, current: null, attempts: 0, locked: false,
@@ -529,7 +554,6 @@ new ResizeObserver(() => {
 }).observe(wrap);
 
 load().then(() => {
-  rotation = rotationFor(S.regions);
   render();
   bindPointer();
   $('loading').remove();
