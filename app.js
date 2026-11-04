@@ -19,7 +19,7 @@ const ANTARCTICA = '010';
 const ROTATION = -11;
 // Where to put a country's single ring when its largest island isn't its heartland.
 const RING_ANCHOR = {
-  ki: [173.0, 1.4],  // Kiribati: the Gilbert Islands around Tarawa (with Banaba), not Kiritimati far to the east
+  ki: [-157.4, 1.9],  // Kiribati: the Line Islands around Kiritimati
 };
 const MAX_K = 400;           // max zoom factor
 const TINY_PX = 12;          // show a ring when a small country is smaller than this on screen
@@ -84,7 +84,7 @@ function polygonsOf(f) {
 
 // Where a country's ring goes: its largest polygon plus everything within ~650 km, so far-flung
 // islands (e.g. US Aleutians) don't pull the ring away. With an anchor (RING_ANCHOR), it is the
-// polygons within ~1000 km of that point instead, e.g. Kiribati's Gilbert Islands and Banaba.
+// polygons within ~1000 km of that point instead, e.g. Kiribati's Line Islands.
 function coreOf(fs, anchor) {
   const polys = fs.flatMap(polygonsOf).map(c => {
     const p = { type: 'Polygon', coordinates: c };
