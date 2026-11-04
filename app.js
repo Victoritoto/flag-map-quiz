@@ -63,7 +63,7 @@ const S = {
 
 // ---------- utils ----------
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-const FLAG_VERSION = 3;  // bump when flag files change so browsers don't show cached old flags
+const FLAG_VERSION = 4;  // bump when flag files change so browsers don't show cached old flags
 const flagSrc = c => `flags/${c}.svg?v=${FLAG_VERSION}`;
 const esc = s => s.replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 
