@@ -14,12 +14,13 @@ const REGION_BOX = {
 const NAME_TO_CODE = { 'Kosovo': 'xk', 'N. Cyprus': 'cy', 'Somaliland': 'so' };
 const TERRITORY_NAMES = { 'W. Sahara': 'Western Sahara', 'Siachen Glacier': 'Siachen Glacier (disputed)' };
 const ANTARCTICA = '010';
-// The map is centred on 11°E, so its wrap-around edge runs down 169°W: through the Bering Strait
-// (Russia's Chukotka stays right, Alaska left) and east of Samoa, Tonga and Kiribati's Gilbert and Phoenix Islands.
+// The map is centred on 11°E, so its wrap-around edge runs down 169°W, through the Bering Strait and
+// east of Samoa, Tonga and Kiribati's Gilbert and Phoenix Islands. Shapes are always drawn at their real positions.
 const ROTATION = -11;
-const EDGE_LON = -180 - ROTATION;
-// Where to centre a country's ring when its largest island is not its heartland.
-const CORE_ANCHOR = { ki: [172.98, 1.42] };  // Kiribati: Tarawa (Gilbert Islands), not Kiritimati far to the east
+// Countries spread over far-apart island groups get one ring per group, each at the group's real position.
+const RING_GROUPS = {
+  ki: [[173.0, 1.4], [-171.7, -2.8], [-157.4, 1.9]],  // Kiribati: Gilbert (Tarawa, with Banaba), Phoenix (Kanton), Line (Kiritimati)
+};
 const MAX_K = 400;           // max zoom factor
 const TINY_PX = 12;          // show a ring when a small country is smaller than this on screen
 const SMALL_SR = 30000 / 40.6e6; // only countries under ~30,000 km² (in steradians) get rings
@@ -44,7 +45,7 @@ const modalBody = $('modalBody');
 let countries = [];        // [{code,num,name,region}]
 const byCode = new Map();
 let features = [];         // [{feature, code|null, name}]
-const geo = new Map();     // code -> {paths:[], core, ring}
+const geo = new Map();     // code -> {paths:[], cores:[], rings:[], area}
 
 // ---------- map state ----------
 const zoomLayer = svg.append('g');
@@ -52,6 +53,7 @@ const landG = zoomLayer.append('g').attr('class', 'land');
 const ringsG = zoomLayer.append('g').attr('class', 'rings');
 let projection, path, W = 0, H = 0, homeT = d3.zoomIdentity, curT = d3.zoomIdentity;
 let labels = [];           // [{el, x, y}] in projected (unzoomed) coords
+let allRings = [];         // every ring of every country, for overlap checks and hit testing
 let isTouch = matchMedia('(pointer: coarse)').matches;
 const zoom = d3.zoom().scaleExtent([0.7, MAX_K]).on('zoom', ev => {
   curT = ev.transform;
@@ -80,41 +82,21 @@ function polygonsOf(f) {
   return g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
 }
 
-// The "core" of a country: its largest polygon (or the one nearest its anchor) plus everything within ~650 km.
-// Used to place rings, so far-flung islands (e.g. Kiribati, US Aleutians) don't pull them away.
-function coreOf(fs, anchor) {
+// Where a country's ring(s) go. By default: its largest polygon plus everything within ~650 km, so
+// far-flung islands (e.g. US Aleutians) don't pull the ring away. Countries in RING_GROUPS instead get
+// one core per island group, each made of the polygons nearest to that group's anchor point.
+function coresOf(fs, anchors) {
   const polys = fs.flatMap(polygonsOf).map(c => {
     const p = { type: 'Polygon', coordinates: c };
     return { p, area: d3.geoArea(p), c: d3.geoCentroid(p) };
   });
-  polys.sort((a, b) => anchor ? d3.geoDistance(a.c, anchor) - d3.geoDistance(b.c, anchor) : b.area - a.area);
-  const main = polys[0];
-  const near = polys.filter(q => d3.geoDistance(q.c, main.c) < 0.1);
-  return {
-    type: 'Feature',
-    geometry: { type: 'MultiPolygon', coordinates: near.map(q => q.p.coordinates) },
-    area: polys.reduce((s, q) => s + q.area, 0),
-  };
-}
-
-// No meridian crosses the Bering Sea without touching land, so a few slivers (e.g. the east tip of
-// St. Lawrence Island) poke over the map edge and would be drawn at the far side. Pull such slivers
-// back onto the side where the rest of their island is, so no shape is ever split across the map.
-function keepOffEdge(f) {
-  const rel = lon => ((lon - EDGE_LON) % 360 + 360) % 360;  // 0..360, measured east from the edge
-  const eps = 1e-4;
-  for (const poly of polygonsOf(f)) for (const ring of poly) {
-    const r = ring.map(p => rel(p[0]));
-    let crosses = false;
-    for (let i = 1; i < r.length; i++) if (Math.abs(r[i] - r[i - 1]) > 180) { crosses = true; break; }
-    if (!crosses) continue;
-    const west = r.filter(v => v > 180).length;  // points just west of the edge (shown at the right)
-    const toWest = west >= r.length - west;
-    ring.forEach((p, i) => {
-      if (toWest && r[i] < 180) p[0] = EDGE_LON - eps;
-      if (!toWest && r[i] > 180) p[0] = EDGE_LON + eps;
-    });
+  const asCore = list => ({ type: 'Feature', geometry: { type: 'MultiPolygon', coordinates: list.map(q => q.p.coordinates) } });
+  if (anchors) {
+    const nearest = q => d3.minIndex(anchors, a => d3.geoDistance(q.c, a));
+    return anchors.map((a, i) => asCore(polys.filter(q => nearest(q) === i))).filter(c => c.geometry.coordinates.length);
   }
+  const main = polys.reduce((m, q) => q.area > m.area ? q : m);
+  return [asCore(polys.filter(q => d3.geoDistance(q.c, main.c) < 0.1))];
 }
 
 // ---------- loading ----------
@@ -131,7 +113,6 @@ async function load() {
   const all = topojson.feature(topo, topo.objects.countries).features.concat(extra.features);
   for (const f of all) {
     if (f.id === ANTARCTICA) continue;
-    keepOffEdge(f);
     const nm = f.properties.name;
     const code = numToCode.get(f.id) || NAME_TO_CODE[nm] || null;
     features.push({ feature: f, code, name: code ? byCode.get(code).name : (TERRITORY_NAMES[nm] || nm) });
@@ -140,7 +121,10 @@ async function load() {
   for (const f of features) if (f.code) geo.get(f.code).fs.push(f.feature);
   const missing = list.filter(c => !geo.get(c.code).fs.length);
   if (missing.length) console.error('No shape for', missing.map(c => c.name));
-  for (const [code, g] of geo) g.core = coreOf(g.fs, CORE_ANCHOR[code]);
+  for (const [code, g] of geo) {
+    g.cores = coresOf(g.fs, RING_GROUPS[code]);
+    g.area = d3.sum(g.fs, f => d3.geoArea(f));
+  }
   // handy for checking in the console
   window.__quiz = {
     countries, geo, features, S,
@@ -167,13 +151,19 @@ function render() {
   }
 
   ringsG.selectAll('circle').remove();
+  allRings = [];
   for (const [code, g] of geo) {
-    const b = path.bounds(g.core);
-    const [x, y] = [(b[0][0] + b[1][0]) / 2, (b[0][1] + b[1][1]) / 2];
-    const half = Math.hypot(b[1][0] - b[0][0], b[1][1] - b[0][1]) / 2;
-    const size = Math.sqrt(path.area(g.core));
-    const el = ringsG.append('circle').attr('cx', x).attr('cy', y).node();
-    g.ring = { el, x, y, half, size, bounds: b, small: g.core.area < SMALL_SR, visible: false, r: 0 };
+    g.rings = g.cores.map(core => {
+      const b = path.bounds(core);
+      // Centre on the land-weighted centre, which sits on the main islands, not the middle of an archipelago's box.
+      const [x, y] = projection(d3.geoCentroid(core));
+      const half = Math.hypot(b[1][0] - b[0][0], b[1][1] - b[0][1]) / 2;
+      const size = Math.sqrt(path.area(core));
+      const el = ringsG.append('circle').attr('cx', x).attr('cy', y).node();
+      const ring = { code, el, x, y, half, size, bounds: b, small: g.area < SMALL_SR, visible: false, r: 0 };
+      allRings.push(ring);
+      return ring;
+    });
   }
   applyRegionClasses();
   applyDone();
@@ -211,11 +201,13 @@ function fitTransform([[x0, y0], [x1, y1]], pad = 0.9, maxK = MAX_K, crop = 1) {
   return d3.zoomIdentity.translate(W / 2, H / 2).scale(k).translate(-(x0 + x1) / 2, -(y0 + y1) / 2);
 }
 
+// A country's map shapes plus its rings: everything that is coloured together.
+const shapesOf = g => [...g.paths, ...g.rings.map(r => r.el)];
+
 function applyRegionClasses() {
   for (const [code, g] of geo) {
     const out = !S.regions.has(byCode.get(code).region);
-    g.paths.forEach(p => p.classList.toggle('out', out));
-    g.ring.el.classList.toggle('out', out);
+    shapesOf(g).forEach(el => el.classList.toggle('out', out));
   }
 }
 
@@ -228,30 +220,40 @@ function doneState(code) {
 function applyDone() {
   for (const [code, g] of geo) {
     const d = doneState(code);
-    for (const el of [...g.paths, g.ring.el]) {
+    for (const el of shapesOf(g)) {
       el.classList.toggle('done1', d === 1);
       el.classList.toggle('done2', d === 2);
     }
   }
 }
 
-function ringRadius(g, k) {
+function ringRadius(ring, k) {
   const min = isTouch ? 10 : 7;
-  return Math.max(min, Math.min(16, g.ring.half * k + 3));
+  return Math.max(min, Math.min(16, ring.half * k + 3));
 }
 
 function updateRings() {
   const k = curT.k;
-  for (const g of geo.values()) {
-    const ring = g.ring;
+  const shown = [];
+  for (const ring of allRings) {
     const cls = ring.el.classList;
     const vis = (ring.small && !cls.contains('out') && ring.size * k < TINY_PX) ||
       (ring.size * k < 6 && (cls.contains('bad') || cls.contains('good')));
     if (vis !== ring.visible) { ring.visible = vis; ring.el.classList.toggle('hidden', !vis); }
-    if (vis) {
-      ring.r = ringRadius(g, k);
-      ring.el.setAttribute('r', ring.r / k);
-    }
+    if (vis) { ring.r = ringRadius(ring, k); ring.sx = ring.x * k; ring.sy = ring.y * k; shown.push(ring); }
+  }
+  // Rings never overlap: when two are closer than their radii allow, both shrink to half the gap,
+  // so crowded groups (e.g. Nauru, Kiribati, Tuvalu at world zoom) get small rings instead of moving.
+  for (let i = 0; i < shown.length; i++) for (let j = i + 1; j < shown.length; j++) {
+    const a = shown[i], b = shown[j];
+    const d = Math.hypot(a.sx - b.sx, a.sy - b.sy);
+    if (a.r + b.r > d - 1) { const r = d / 2 - 0.5; a.r = Math.min(a.r, r); b.r = Math.min(b.r, r); }
+  }
+  // A ring squeezed below 2px is too small to see or hit, so it waits until you zoom in a little.
+  for (const ring of shown) {
+    const fits = ring.r >= 2;
+    if (!fits) { ring.visible = false; ring.el.classList.add('hidden'); }
+    else ring.el.setAttribute('r', ring.r / k);
   }
 }
 
@@ -260,16 +262,15 @@ function updateRings() {
 function hitTest(clientX, clientY) {
   const el = document.elementFromPoint(clientX, clientY);
   const f = el && el.__f;
-  if (f && f.code && geo.get(f.code).ring.visible) return f;
+  if (f && f.code && geo.get(f.code).rings.some(r => r.visible)) return f;
   const rect = svg.node().getBoundingClientRect();
   const sx = clientX - rect.left, sy = clientY - rect.top;
   let best = null, bestD = Infinity;
-  for (const [code, g] of geo) {
-    const ring = g.ring;
+  for (const ring of allRings) {
     if (!ring.visible) continue;
     const [px, py] = curT.apply([ring.x, ring.y]);
     const d = Math.hypot(px - sx, py - sy);
-    if (d <= ring.r + (isTouch ? 4 : 1) && d < bestD) { bestD = d; best = code; }
+    if (d <= ring.r + (isTouch ? 4 : 1) && d < bestD) { bestD = d; best = ring.code; }
   }
   if (best) return { code: best, name: byCode.get(best).name };
   return f || null;
@@ -278,9 +279,9 @@ function hitTest(clientX, clientY) {
 let hovered = null;
 function setHover(code) {
   if (code === hovered) return;
-  if (hovered) { const g = geo.get(hovered); g.paths.forEach(p => p.classList.remove('hover')); g.ring.el.classList.remove('hover'); }
+  if (hovered) shapesOf(geo.get(hovered)).forEach(el => el.classList.remove('hover'));
   hovered = code;
-  if (code) { const g = geo.get(code); g.paths.forEach(p => p.classList.add('hover')); g.ring.el.classList.add('hover'); }
+  if (code) shapesOf(geo.get(code)).forEach(el => el.classList.add('hover'));
 }
 let hoveredTerr = null;
 function setHoverTerr(el) {
@@ -349,9 +350,7 @@ function placeLabels() {
 
 // ---------- highlighting ----------
 function mark(code, cls, on = true) {
-  const g = geo.get(code);
-  g.paths.forEach(p => p.classList.toggle(cls, on));
-  g.ring.el.classList.toggle(cls, on);
+  shapesOf(geo.get(code)).forEach(el => el.classList.toggle(cls, on));
 }
 function clearMarks() {
   landG.selectAll('path.good, path.bad').classed('good bad', false);
