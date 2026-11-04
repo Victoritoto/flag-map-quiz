@@ -7,7 +7,6 @@
   --ocean: #dbe7ee;
   --land: #d3d9cb;
   --land-out: #e6e8e0;
-  --terr: #e3e2dc;
   --border: #ffffff;
   --hover: #b3c3a3;
   --good: #2f9e5b;
@@ -80,7 +79,10 @@ button.ghost { background: transparent; }
 #name.good { color: var(--good); }
 #name.bad { color: var(--bad); }
 #side { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; text-align: right; }
+#stats { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
 #counter { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+#timer { color: var(--ink); font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+#timer::before { content: "⏱ "; font-weight: 400; }
 #counter b { color: var(--ink); font-weight: 600; }
 #counter .sw { margin-right: 4px; width: 10px; height: 10px; }
 #buttons { display: flex; gap: 8px; }
@@ -95,7 +97,6 @@ button.ghost { background: transparent; }
   transition: fill .2s;
 }
 .land path.out { fill: var(--land-out); }
-.land path.terr { fill: var(--terr); }
 .land path.done1 { fill: var(--done1); }
 .land path.done2 { fill: var(--done2); }
 .land path.hover { fill: var(--hover); cursor: pointer; }
@@ -209,6 +210,8 @@ button.ghost { background: transparent; }
   #prompt { font-size: 13px; }
   #side { flex-direction: row; align-items: center; justify-content: space-between; text-align: left; }
   #counter { font-size: 12.5px; }
+  #stats { align-items: flex-start; }
+  #timer { font-size: 13px; }
   #buttons button { padding: 6px 10px; font-size: 14px; }
   #sheet { padding: 22px 16px 18px; }
   .regions { grid-template-columns: 1fr 1fr; }

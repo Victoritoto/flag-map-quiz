@@ -11,8 +11,9 @@ const REGION_BOX = {
   Oceania:  [[110, -48], [205, 20]],  // past 180° so it reaches Kiritimati (drawn right of the edge)
 };
 // Natural Earth shapes without an ISO id that belong to a quiz country.
-const NAME_TO_CODE = { 'Kosovo': 'xk', 'N. Cyprus': 'cy', 'Somaliland': 'so' };
-const TERRITORY_NAMES = { 'W. Sahara': 'Western Sahara', 'Siachen Glacier': 'Siachen Glacier (disputed)' };
+// Kosovo has no ISO id in Natural Earth but is one of the 197. Every other shape without an id, and every
+// dependent territory, is listed in data/territories.json with the country it belongs to.
+const OWN_BY_NAME = { 'Kosovo': 'xk' };
 const ANTARCTICA = '010';
 // The map is centred on 11°E, so its wrap-around edge runs down 169°W, through the Bering Strait.
 // That keeps Alaska and Russia whole, but would leave the Pacific islands east of 169°W on the far left.
@@ -44,6 +45,7 @@ const nameEl = $('name');
 const promptEl = $('prompt');
 const attemptEl = $('attempt');
 const counterEl = $('counter');
+const timerEl = $('timer');
 const modal = $('modal');
 const modalBody = $('modalBody');
 
@@ -74,12 +76,12 @@ const S = {
   current: null, attempts: 0, locked: true,
   // firstTry: right on the first click; tries: code -> clicks needed when it took more than one
   firstTry: new Set(), tries: new Map(), answered: new Set(), wrongClicks: 0,
-  started: 0, timer: null, flashTimer: null,
+  timer: null, flashTimer: null,
 };
 
 // ---------- utils ----------
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-const FLAG_VERSION = 4;  // bump when flag files change so browsers don't show cached old flags
+const FLAG_VERSION = 5;  // bump when flag files change so browsers don't show cached old flags
 const flagSrc = c => `flags/${c}.svg?v=${FLAG_VERSION}`;
 const esc = s => s.replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 
@@ -132,10 +134,11 @@ function coreOf(fs, anchor) {
 
 // ---------- loading ----------
 async function load() {
-  const [list, topo, extra] = await Promise.all([
+  const [list, topo, extra, territories] = await Promise.all([
     fetch('data/countries.json').then(r => r.json()),
     fetch('data/countries-50m.json').then(r => r.json()),
-    fetch('data/extra-10m.json').then(r => r.json()),
+    fetch('data/extra-10m.json?v=2').then(r => r.json()),
+    fetch('data/territories.json?v=1').then(r => r.json()),
   ]);
   countries = list;
   const numToCode = new Map();
@@ -145,11 +148,16 @@ async function load() {
   for (const f of all) {
     if (f.id === ANTARCTICA) continue;
     const nm = f.properties.name;
-    const code = numToCode.get(f.id) || NAME_TO_CODE[nm] || null;
-    features.push({ feature: f, parts: splitPast(f), code, name: code ? byCode.get(code).name : (TERRITORY_NAMES[nm] || nm) });
+    const terr = territories[nm];
+    const code = numToCode.get(f.id) || OWN_BY_NAME[nm] || (terr && terr.of);
+    if (!code) { console.error('Map shape belongs to no country:', nm); continue; }
+    const country = byCode.get(code).name;
+    // A territory is part of its country's shape set; its own name only shows when you click it by mistake.
+    features.push({ feature: f, parts: splitPast(f), code, territory: !!terr, name: terr ? `${terr.label} (${country})` : country });
   }
   for (const c of list) geo.set(c.code, { paths: [], fs: [] });
-  for (const f of features) if (f.code) geo.get(f.code).fs.push(f.feature);
+  // Rings and "small country" size come from the country's own shapes, never its territories.
+  for (const f of features) if (!f.territory) geo.get(f.code).fs.push(f.feature);
   const missing = list.filter(c => !geo.get(c.code).fs.length);
   if (missing.length) console.error('No shape for', missing.map(c => c.name));
   for (const [code, g] of geo) {
@@ -160,6 +168,7 @@ async function load() {
   window.__quiz = {
     countries, geo, features, S,
     pick: code => pick({ code, name: byCode.get(code).name }, 0, 0),
+    clock: () => ({ ...clock, ms: clockMs(), shown: timerEl.textContent }),
     view: (lon, lat, k) => { const [x, y] = projectPoint([lon, lat]); svg.call(zoom.transform, d3.zoomIdentity.translate(W / 2, H / 2).scale(k).translate(-x, -y)); },
   };
 }
@@ -181,8 +190,7 @@ function render() {
   for (const f of features) {
     const el = landG.append('path').attr('d', pathOf(f.parts)).node();
     el.__f = f;
-    if (f.code) geo.get(f.code).paths.push(el);
-    else el.classList.add('terr');
+    geo.get(f.code).paths.push(el);
   }
 
   ringsG.selectAll('circle').remove();
@@ -319,12 +327,6 @@ function setHover(code) {
   hovered = code;
   if (code) shapesOf(geo.get(code)).forEach(el => el.classList.add('hover'));
 }
-let hoveredTerr = null;
-function setHoverTerr(el) {
-  if (hoveredTerr === el) return;
-  if (hoveredTerr) hoveredTerr.classList.remove('hover');
-  hoveredTerr = el; if (el) el.classList.add('hover');
-}
 
 // Tap vs drag: a press only counts as a click if the pointer barely moved and only one finger was down.
 const press = { id: null, x: 0, y: 0, moved: false, multi: false, down: new Set() };
@@ -335,7 +337,7 @@ function bindPointer() {
     if (press.down.size > 1) { press.multi = true; return; }
     Object.assign(press, { id: e.pointerId, x: e.clientX, y: e.clientY, moved: false, multi: false });
     isTouch = e.pointerType !== 'mouse';
-    if (isTouch) { setHover(null); setHoverTerr(null); }
+    if (isTouch) setHover(null);
   });
   window.addEventListener('pointermove', e => {
     if (e.pointerId === press.id && press.down.size > 0) {
@@ -346,8 +348,7 @@ function bindPointer() {
   node.addEventListener('pointermove', e => {
     if (e.pointerType === 'mouse' && press.down.size === 0) {
       const f = hitTest(e.clientX, e.clientY);
-      setHover(f && f.code ? f.code : null);
-      setHoverTerr(f && !f.code ? document.elementFromPoint(e.clientX, e.clientY) : null);
+      setHover(f ? f.code : null);
     }
   });
   const end = e => {
@@ -362,7 +363,7 @@ function bindPointer() {
   };
   window.addEventListener('pointerup', end);
   window.addEventListener('pointercancel', end);
-  node.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') { setHover(null); setHoverTerr(null); } });
+  node.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') setHover(null); });
 }
 
 // ---------- labels on the map ----------
@@ -393,10 +394,6 @@ function clearMarks() {
   ringsG.selectAll('circle').classed('good bad', false);
   updateRings();
 }
-function flashBadTerritory(el) {
-  el.classList.add('bad');
-  setTimeout(() => el.classList.remove('bad'), 900);
-}
 
 // ---------- game flow ----------
 function startSession(regions) {
@@ -409,13 +406,13 @@ function startSession(regions) {
     pool: countries.filter(c => S.regions.has(c.region)).map(c => c.code),
     idx: 0, current: null, attempts: 0, locked: false,
     firstTry: new Set(), tries: new Map(), answered: new Set(), wrongClicks: 0,
-    started: Date.now(),
   });
   S.queue = shuffle(S.pool);
   applyDone();
   clearMarks(); clearLabels();
   closeModal();
   nextFlag();
+  clockStart();  // the first flag is up: time starts now
 }
 
 function nextFlag() {
@@ -460,13 +457,10 @@ function pick(f, clientX, clientY) {
   // Wrong: flash what was clicked and name it, but never reveal the answer. The same flag stays up.
   S.attempts++; S.wrongClicks++;
   clearTimeout(S.flashTimer); clearMarks(); clearLabels();
-  landG.selectAll('path.terr.bad').classed('bad', false);
-  let terr = null;
-  if (f.code) mark(f.code, 'bad');
-  else { terr = document.elementFromPoint(clientX, clientY); if (terr && terr.__f) terr.classList.add('bad'); else terr = null; }
+  mark(f.code, 'bad');
   updateRings();
-  addLabel(`That's ${f.name}`, f.code ? '' : '(not in quiz)', clientX, clientY);
-  S.flashTimer = setTimeout(() => { if (terr) terr.classList.remove('bad'); clearMarks(); clearLabels(); }, WRONG_FLASH);
+  addLabel(`That's ${f.name}`, '', clientX, clientY);
+  S.flashTimer = setTimeout(() => { clearMarks(); clearLabels(); }, WRONG_FLASH);
   promptEl.textContent = `That's ${f.name} — keep looking`;
   showAttempt();
 }
@@ -488,6 +482,31 @@ function updateCounter() {
   counterEl.innerHTML = `<i class="sw done1"></i><b>${S.firstTry.size}</b> first try · ` +
     `<i class="sw done2"></i><b>${S.tries.size}</b> after several tries · <b>${N - S.answered.size}</b> / ${N} to go`;
 }
+
+// ---------- play timer ----------
+// Counts only time the tab is visible: it pauses in the background and resumes on return.
+const clock = { running: false, total: 0, since: null, tick: null };
+const clockMs = () => clock.total + (clock.since === null ? 0 : performance.now() - clock.since);
+function fmtTime(ms) {
+  const t = Math.floor(ms / 1000), h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60, sec = t % 60;
+  const two = n => String(n).padStart(2, '0');
+  return h ? `${h}:${two(m)}:${two(sec)}` : `${two(m)}:${two(sec)}`;
+}
+const showClock = () => { timerEl.textContent = fmtTime(clockMs()); };
+function clockResume() { if (clock.since === null && !document.hidden) clock.since = performance.now(); }
+function clockPause() { if (clock.since !== null) { clock.total += performance.now() - clock.since; clock.since = null; } }
+function clockStart() {
+  Object.assign(clock, { running: true, total: 0, since: null });
+  clockResume();
+  clearInterval(clock.tick); clock.tick = setInterval(showClock, 250);
+  showClock();
+}
+function clockStop() { clock.running = false; clockPause(); clearInterval(clock.tick); showClock(); }
+document.addEventListener('visibilitychange', () => {
+  if (!clock.running) return;
+  if (document.hidden) clockPause(); else clockResume();
+  showClock();
+});
 
 // ---------- modals ----------
 function openModal(html, closable = true) {
@@ -552,7 +571,7 @@ function finish() {
   S.locked = true; S.current = null;
   attemptEl.classList.remove('show');
   const N = S.pool.length, ok = S.firstTry.size;
-  const mins = Math.max(1, Math.round((Date.now() - S.started) / 60000));
+  clockStop();
   flagImg.classList.add('swap');
   promptEl.textContent = 'Session complete';
   nameEl.className = 'good show'; nameEl.textContent = `${ok} / ${N}`;
@@ -560,7 +579,7 @@ function finish() {
   openModal(`
     <h2>Session complete 🎉</h2>
     <div class="score">${ok} <small>/ ${N} correct first try (${Math.round(100 * ok / N)}%)</small></div>
-    <div class="stats"><span><i class="sw done2"></i><b>${S.tries.size}</b> after several tries</span><span><b>${S.wrongClicks}</b> wrong click${S.wrongClicks === 1 ? '' : 's'} in total</span><span>about <b>${mins}</b> min</span></div>
+    <div class="stats"><span><i class="sw done2"></i><b>${S.tries.size}</b> after several tries</span><span><b>${S.wrongClicks}</b> wrong click${S.wrongClicks === 1 ? '' : 's'} in total</span><span>time <b>${fmtTime(clockMs())}</b></span></div>
     ${S.tries.size ? section('<i class="sw done2"></i>Correct after several tries', [...S.tries.keys()], triesCell) : '<p>A perfect run — every flag right first time.</p>'}
     <div class="actions" style="margin-top:22px">
       <button id="endRegions">Change regions</button>

@@ -1,0 +1,198 @@
+{
+ "Indian Ocean Ter.": {
+  "of": "au",
+  "label": "Christmas Island & Cocos (Keeling) Islands"
+ },
+ "Coral Sea Is.": {
+  "of": "au",
+  "label": "Coral Sea Islands"
+ },
+ "Heard I. and McDonald Is.": {
+  "of": "au",
+  "label": "Heard Island and McDonald Islands"
+ },
+ "Norfolk Island": {
+  "of": "au",
+  "label": "Norfolk Island"
+ },
+ "Hong Kong": {
+  "of": "cn",
+  "label": "Hong Kong"
+ },
+ "Macao": {
+  "of": "cn",
+  "label": "Macau"
+ },
+ "N. Cyprus": {
+  "of": "cy",
+  "label": "Northern Cyprus"
+ },
+ "Faeroe Is.": {
+  "of": "dk",
+  "label": "Faroe Islands"
+ },
+ "Greenland": {
+  "of": "dk",
+  "label": "Greenland"
+ },
+ "Åland": {
+  "of": "fi",
+  "label": "Åland Islands"
+ },
+ "Clipperton I.": {
+  "of": "fr",
+  "label": "Clipperton Island"
+ },
+ "Fr. Polynesia": {
+  "of": "fr",
+  "label": "French Polynesia"
+ },
+ "Fr. S. Antarctic Lands": {
+  "of": "fr",
+  "label": "French Southern and Antarctic Lands"
+ },
+ "New Caledonia": {
+  "of": "fr",
+  "label": "New Caledonia"
+ },
+ "St-Barthélemy": {
+  "of": "fr",
+  "label": "Saint Barthélemy"
+ },
+ "St-Martin": {
+  "of": "fr",
+  "label": "Saint Martin"
+ },
+ "St. Pierre and Miquelon": {
+  "of": "fr",
+  "label": "Saint Pierre and Miquelon"
+ },
+ "Wallis and Futuna Is.": {
+  "of": "fr",
+  "label": "Wallis and Futuna"
+ },
+ "Akrotiri": {
+  "of": "gb",
+  "label": "Akrotiri"
+ },
+ "Anguilla": {
+  "of": "gb",
+  "label": "Anguilla"
+ },
+ "Bermuda": {
+  "of": "gb",
+  "label": "Bermuda"
+ },
+ "Br. Indian Ocean Ter.": {
+  "of": "gb",
+  "label": "British Indian Ocean Territory"
+ },
+ "British Virgin Is.": {
+  "of": "gb",
+  "label": "British Virgin Islands"
+ },
+ "Cayman Is.": {
+  "of": "gb",
+  "label": "Cayman Islands"
+ },
+ "Dhekelia": {
+  "of": "gb",
+  "label": "Dhekelia"
+ },
+ "Falkland Is.": {
+  "of": "gb",
+  "label": "Falkland Islands"
+ },
+ "Gibraltar": {
+  "of": "gb",
+  "label": "Gibraltar"
+ },
+ "Guernsey": {
+  "of": "gb",
+  "label": "Guernsey"
+ },
+ "Isle of Man": {
+  "of": "gb",
+  "label": "Isle of Man"
+ },
+ "Jersey": {
+  "of": "gb",
+  "label": "Jersey"
+ },
+ "Montserrat": {
+  "of": "gb",
+  "label": "Montserrat"
+ },
+ "Pitcairn Is.": {
+  "of": "gb",
+  "label": "Pitcairn Islands"
+ },
+ "Saint Helena": {
+  "of": "gb",
+  "label": "Saint Helena"
+ },
+ "S. Geo. and the Is.": {
+  "of": "gb",
+  "label": "South Georgia and the South Sandwich Islands"
+ },
+ "Turks and Caicos Is.": {
+  "of": "gb",
+  "label": "Turks and Caicos Islands"
+ },
+ "Siachen Glacier": {
+  "of": "in",
+  "label": "Siachen Glacier"
+ },
+ "W. Sahara": {
+  "of": "ma",
+  "label": "Western Sahara"
+ },
+ "Aruba": {
+  "of": "nl",
+  "label": "Aruba"
+ },
+ "Curaçao": {
+  "of": "nl",
+  "label": "Curaçao"
+ },
+ "Sint Maarten": {
+  "of": "nl",
+  "label": "Sint Maarten"
+ },
+ "Cook Is.": {
+  "of": "nz",
+  "label": "Cook Islands"
+ },
+ "Niue": {
+  "of": "nz",
+  "label": "Niue"
+ },
+ "Somaliland": {
+  "of": "so",
+  "label": "Somaliland"
+ },
+ "American Samoa": {
+  "of": "us",
+  "label": "American Samoa"
+ },
+ "Guam": {
+  "of": "us",
+  "label": "Guam"
+ },
+ "N. Mariana Is.": {
+  "of": "us",
+  "label": "Northern Mariana Islands"
+ },
+ "Puerto Rico": {
+  "of": "us",
+  "label": "Puerto Rico"
+ },
+ "U.S. Minor Outlying Is.": {
+  "of": "us",
+  "label": "United States Minor Outlying Islands"
+ },
+ "U.S. Virgin Is.": {
+  "of": "us",
+  "label": "United States Virgin Islands"
+ }
+}
